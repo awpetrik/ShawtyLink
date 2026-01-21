@@ -7,7 +7,7 @@
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 
-<img width="1582" height="966" alt="image" src="https://github.com/user-attachments/assets/7a93f91e-1f88-45c7-8566-36a5772a0f71" />
+<img width="612" height="897" alt="image" src="https://github.com/user-attachments/assets/2bc7cebe-2a77-4596-9c52-cb9107d9dad2" />
 
 A simple, private, and powerful URL shortener with a premium, Apple-inspired user interface. Built with modern web technologies and containerized for easy deployment.
 
