@@ -6,6 +6,7 @@ Thumbs.db
 backend/__pycache__/
 backend/*.pyc
 backend/sql_app.db
+backend/data/*.db
 backend/.env
 backend/venv/
 backend/.pytest_cache/
