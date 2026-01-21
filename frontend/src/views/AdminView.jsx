@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 
 // ... Utils ...
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
 const ConfirmModal = ({ isOpen, onClose, onConfirm, title, message }) => {
     if (!isOpen) return null
     return (
@@ -230,8 +232,6 @@ const Toast = ({ message }) => (
 )
 
 export default function AdminView() {
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-
     const [stats, setStats] = useState(null)
 
     // Modal States
