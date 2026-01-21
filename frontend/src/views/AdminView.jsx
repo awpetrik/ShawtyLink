@@ -34,7 +34,7 @@ const AnalyticsModal = ({ isOpen, onClose }) => {
     useEffect(() => {
         if (isOpen) {
             setLoading(true)
-            fetch(`http://localhost:8000/admin/analytics/overview?range=${range}`)
+            fetch(`${API_BASE}/admin/analytics/overview?range=${range}`)
                 .then(res => res.json())
                 .then(setData)
                 .catch(console.error)
@@ -160,7 +160,7 @@ const AllLinksModal = ({ isOpen, onClose, onDelete }) => {
     useEffect(() => {
         if (isOpen) {
             setLoading(true)
-            fetch('http://localhost:8000/admin/urls')
+            fetch(`${API_BASE}/admin/urls`)
                 .then(res => res.json())
                 .then(data => {
                     setLinks(data)
@@ -230,6 +230,8 @@ const Toast = ({ message }) => (
 )
 
 export default function AdminView() {
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
     const [stats, setStats] = useState(null)
 
     // Modal States
@@ -241,7 +243,7 @@ export default function AdminView() {
     const [toast, setToast] = useState(null)
 
     const fetchStats = () => {
-        fetch('http://localhost:8000/admin/stats')
+        fetch(`${API_BASE}/admin/stats`)
             .then(res => res.json())
             .then(setStats)
             .catch(console.error)
@@ -260,7 +262,7 @@ export default function AdminView() {
 
     const confirmDelete = async () => {
         try {
-            await fetch(`http://localhost:8000/admin/urls/${deleteTarget}`, { method: 'DELETE' })
+            await fetch(`${API_BASE}/admin/urls/${deleteTarget}`, { method: 'DELETE' })
             setShowConfirm(false)
             setToast("Short link deleted successfully")
             setTimeout(() => setToast(null), 3000)

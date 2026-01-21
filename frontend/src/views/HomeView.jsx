@@ -14,6 +14,8 @@ const ThemeToggle = ({ theme, toggleTheme }) => (
 )
 
 export default function HomeView() {
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
     const [url, setUrl] = useState('')
     const [customAlias, setCustomAlias] = useState('')
     const [aliasAvailable, setAliasAvailable] = useState(null)
@@ -45,7 +47,7 @@ export default function HomeView() {
             return
         }
         const checkDelay = setTimeout(() => {
-            fetch(`http://localhost:8000/check/${customAlias}`)
+            fetch(`${API_BASE}/check/${customAlias}`)
                 .then(res => res.json())
                 .then(data => setAliasAvailable(data.available))
                 .catch(() => setAliasAvailable(null))
@@ -74,7 +76,8 @@ export default function HomeView() {
                 max_clicks: maxClicks ? parseInt(maxClicks) : null
             }
 
-            const response = await fetch('http://localhost:8000/shorten', {
+
+            const response = await fetch(`${API_BASE}/shorten`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
@@ -86,7 +89,7 @@ export default function HomeView() {
             }
 
             const data = await response.json()
-            const fullShortUrl = `http://localhost:1603/${data.short_code}`
+            const fullShortUrl = `${window.location.origin}/${data.short_code}`
             setShortUrl(fullShortUrl)
         } catch (err) {
             setError(err.message)

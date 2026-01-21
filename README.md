@@ -106,4 +106,24 @@ Navigate to `/admin` to view statistics.
 - **Detailed Stats**: Click on the "Total Clicks" card to view detailed analytics graphs.
 - **Manage Links**: Click on "Active Links" to view a full list and delete specific URLs.
 
+## ☁️ Deployment
+
+### Deploy to Render (Recommended)
+This project is configured with a `render.yaml` Blueprint for easy deployment.
+
+1. **Push your code** to GitHub.
+2. Log in to [Render.com](https://render.com).
+3. Click "New" → "Blueprint".
+4. Connect your repository.
+5. Render will automatically detect the `shawty-backend` and `shawty-frontend` services.
+6. Click **Apply**.
+
+Your app will be live in minutes! The frontend will automatically connect to the backend.
+
+### Manual Deployment
+If you prefer manual setup:
+- **Backend**: Deploy `backend/` as a Docker Web Service.
+- **Frontend**: Deploy `frontend/` as a Static Site. Set the Build Command to `npm install && npm run build` and Publish Directory to `dist`.
+  - **Important**: Add an environment variable `VITE_API_URL` to the Frontend service pointing to your Backend URL (e.g., `https://your-backend.onrender.com`).
+
 

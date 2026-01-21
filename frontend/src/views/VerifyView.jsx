@@ -4,10 +4,12 @@ export default function VerifyView({ shortCode }) {
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
 
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+
     const handleUnlock = async (e) => {
         e.preventDefault()
         try {
-            const res = await fetch('http://localhost:8000/unlock', {
+            const res = await fetch(`${API_BASE}/unlock`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ short_code: shortCode, password })

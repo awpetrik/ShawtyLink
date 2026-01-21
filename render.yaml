@@ -1,0 +1,28 @@
+services:
+  # Backend: Python/FastAPI (Docker)
+  - type: web
+    name: shawty-backend
+    runtime: docker
+    rootDir: backend
+    plan: free
+    region: singapore # Optional: generic defaults usually best
+    envVars:
+      - key: PORT
+        value: 8000
+
+  # Frontend: React/Vite (Static Site)
+  - type: static
+    name: shawty-frontend
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: shawty-backend
+          property: url
