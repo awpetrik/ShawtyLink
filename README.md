@@ -1,4 +1,4 @@
-# Shawty Link - Premium URL Shortener
+# Shawty Link - Shorten your long 4ss URL.
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
@@ -11,7 +11,7 @@ A simple, private, and powerful URL shortener with a premium, Apple-inspired use
 
 ## ✨ Features
 
-- **🚀 rigorous Performance**: Powered by Vite and FastAPI for lightning-fast responses.
+- **🚀 Good Performance**: Powered by Vite and FastAPI for lightning-fast responses.
 - **📱 Fully Responsive**: A seamless experience across desktop, tablet, and mobile devices.
 - **🎨 Modern UI/UX**: clean, glassmorphism-based design with smooth animations and transitions.
 - **🌗 Dark/Light Mode**: automatically respects system preferences with a manual override option.
@@ -54,7 +54,7 @@ A simple, private, and powerful URL shortener with a premium, Apple-inspired use
 
 1. **Clone the repository** (if applicable)
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/awpetrik/ShawtyLink.git
    cd url-shortener
    ```
 
