@@ -1,4 +1,4 @@
-# Shawty Link - Shorten your long 4ss URL.
+# Shawty Link - Shorten your long ass URL.
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
@@ -106,6 +106,4 @@ Navigate to `/admin` to view statistics.
 - **Detailed Stats**: Click on the "Total Clicks" card to view detailed analytics graphs.
 - **Manage Links**: Click on "Active Links" to view a full list and delete specific URLs.
 
-## 📄 License
 
-© Certified Lunatics. A Part Of Rivaldi's Network.
