@@ -7,7 +7,7 @@
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-<img width="1582" height="957" alt="image" src="https://github.com/user-attachments/assets/335c55ca-8cfa-4280-b2ce-20f6692053ae" />
+<img width="1280" height="774" alt="image" src="https://github.com/user-attachments/assets/8556d2b4-2c7c-4907-bd3a-bb41eee74e0f" />
 
 A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired design. Built for speed, privacy, and scalability.
 
