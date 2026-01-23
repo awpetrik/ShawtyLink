@@ -1,50 +1,63 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
-export default function VerifyView({ shortCode }) {
-    const [password, setPassword] = useState('')
+export default function VerifyView() {
+    const { token } = useParams()
+    const navigate = useNavigate()
+    const [status, setStatus] = useState('verifying') // verifying, success, error
     const [error, setError] = useState(null)
 
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    useEffect(() => {
+        if (!token) return
 
-    const handleUnlock = async (e) => {
-        e.preventDefault()
-        try {
-            const res = await fetch(`${API_BASE}/unlock`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ short_code: shortCode, password })
-            })
+        const verify = async () => {
+            try {
+                const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+                await axios.get(`${API_BASE}/auth/verify/${token}`)
 
-            const data = await res.json()
-
-            if (!res.ok) {
-                throw new Error(data.detail || 'Unlock failed')
+                setStatus('success')
+                setTimeout(() => {
+                    navigate('/login?message=Email verified! Please sign in.')
+                }, 2000)
+            } catch (err) {
+                console.error(err)
+                setStatus('error')
+                setError(err.response?.data?.detail || "Verification failed. Link might be expired.")
             }
-
-            // Redirect to original
-            window.location.href = data.original_url
-        } catch (err) {
-            setError(err.message)
         }
-    }
+
+        verify()
+    }, [token, navigate])
 
     return (
-        <div className="container">
-            <h1>Protected Link</h1>
-            <p className="subtitle">This link is password protected.</p>
+        <div className="main-layout" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+            <div className="card" style={{ padding: '40px', maxWidth: '400px', textAlign: 'center' }}>
+                {status === 'verifying' && (
+                    <>
+                        <div className="loading-spinner" style={{ margin: '0 auto 20px' }}></div>
+                        <h3>Verifying Email...</h3>
+                    </>
+                )}
 
-            <form onSubmit={handleUnlock} className="input-group">
-                <input
-                    type="password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    required
-                />
-                <button type="submit">Unlock</button>
-            </form>
+                {status === 'success' && (
+                    <>
+                        <h3 style={{ color: 'var(--success-color)' }}>Verified!</h3>
+                        <p>Your email has been successfully verified.</p>
+                        <p style={{ fontSize: '0.9em', opacity: 0.7 }}>Redirecting to login...</p>
+                    </>
+                )}
 
-            {error && <div className="error-msg">{error}</div>}
+                {status === 'error' && (
+                    <>
+                        <h3 style={{ color: 'var(--danger-color)' }}>Verification Failed</h3>
+                        <p className="error-msg">{error}</p>
+                        <button onClick={() => navigate('/login')} style={{ marginTop: '20px' }}>
+                            Back to Login
+                        </button>
+                    </>
+                )}
+            </div>
         </div>
     )
 }

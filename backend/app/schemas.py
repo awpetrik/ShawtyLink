@@ -1,7 +1,41 @@
-from pydantic import BaseModel
-from datetime import datetime
+from pydantic import BaseModel, EmailStr
 from typing import Optional, List
+from datetime import datetime
 
+# --- Token Schemas ---
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    email: Optional[str] = None
+
+# --- User Schemas ---
+class UserBase(BaseModel):
+    email: EmailStr
+
+class UserCreate(UserBase):
+    password: str
+
+class UserUpdate(BaseModel):
+    full_name: Optional[str] = None
+    bio: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+    current_password: Optional[str] = None
+
+class User(UserBase):
+    id: int
+    is_active: bool
+    is_superuser: bool
+    created_at: datetime
+    full_name: Optional[str] = None
+    bio: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+
+# --- URL Schemas ---
 class URLBase(BaseModel):
     original_url: str
     custom_alias: Optional[str] = None
@@ -12,14 +46,10 @@ class URLBase(BaseModel):
 class URLCreate(URLBase):
     pass
 
-class ClickEvent(BaseModel):
-    timestamp: datetime
-    referrer: Optional[str]
-    user_agent: Optional[str]
-    country: Optional[str]
-    
-    class Config:
-        from_attributes = True
+class URLUpdate(BaseModel):
+    original_url: Optional[str] = None
+    is_active: Optional[bool] = None
+    max_clicks: Optional[int] = None
 
 class URL(URLBase):
     id: int
@@ -27,9 +57,18 @@ class URL(URLBase):
     created_at: datetime
     clicks: int
     is_active: bool
+    user_id: Optional[int] = None
 
     class Config:
-        from_attributes = True # V2 Config
+        from_attributes = True
 
-class URLStats(URL):
-    click_events: List[ClickEvent] = []
+# --- Analytics Schemas ---
+class ClickEvent(BaseModel):
+    id: int
+    timestamp: datetime
+    referrer: Optional[str] = None
+    user_agent: Optional[str] = None
+    country: Optional[str] = None
+    
+    class Config:
+        from_attributes = True

@@ -1,16 +1,19 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 import os
 
-# Create data directory if it doesn't exist (handled by Docker volume usually, but good for local)
-os.makedirs("./data", exist_ok=True)
+# Default to the docker-compose value if local env is not set
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://shawty:shawtyrools@localhost:5432/shawtylink")
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./data/sql_app.db"
+engine = create_async_engine(DATABASE_URL, echo=False)
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+AsyncSessionLocal = sessionmaker(
+    engine, class_=AsyncSession, expire_on_commit=False
 )
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
+
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        yield session

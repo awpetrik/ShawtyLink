@@ -1,0 +1,149 @@
+import { useState, useEffect } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useAuth, AUTH_STATUS } from '../context/AuthContext'
+import { Link2, Mail, Lock, Loader2, AlertCircle, CheckCircle2 } from 'lucide-react'
+
+export default function LoginView() {
+    const { login, status } = useAuth()
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
+
+    // Message from redirection
+    const params = new URLSearchParams(location.search)
+    const message = params.get('message')
+    const registered = params.get('registered')
+
+    useEffect(() => {
+        if (status === AUTH_STATUS.AUTHENTICATED) {
+            const next = params.get('next') || '/dashboard'
+            navigate(next, { replace: true })
+        }
+    }, [status, navigate, params])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setError(null)
+
+        const res = await login(email, password)
+        if (!res.success) {
+            setError(res.error)
+            setLoading(false)
+        }
+        // Success handled by useEffect
+    }
+
+    return (
+        <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-zinc-900">
+            <Link to="/" className="mb-8 flex items-center gap-2 group">
+                <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
+                    <Link2 size={24} className="rotate-45" />
+                </div>
+                <span className="font-bold text-2xl tracking-tight text-gray-900 dark:text-white">Shawty Link</span>
+            </Link>
+
+            <div className="w-full max-w-md bg-white dark:bg-zinc-800 rounded-3xl border border-gray-100 dark:border-zinc-700 shadow-xl shadow-gray-200/50 dark:shadow-black/20 p-8 sm:p-10 transition-all">
+                <div className="text-center mb-8">
+                    <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Welcome back</h2>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">Sign in to manage your links</p>
+                </div>
+
+                {registered && (
+                    <div className="mb-6 p-4 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-900/50 flex items-center gap-3 text-sm text-green-700 dark:text-green-400">
+                        <CheckCircle2 size={18} className="shrink-0" />
+                        Account created successfully! Please sign in.
+                    </div>
+                )}
+
+                {message && (
+                    <div className="mb-6 p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/50 flex items-center gap-3 text-sm text-blue-700 dark:text-blue-400">
+                        <AlertCircle size={18} className="shrink-0" />
+                        {message}
+                    </div>
+                )}
+
+                {error && (
+                    <div className="mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-900/50 flex items-center gap-3 text-sm text-red-700 dark:text-red-400">
+                        <AlertCircle size={18} className="shrink-0" />
+                        {error}
+                    </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-5">
+                    <div className="space-y-1.5">
+                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                        <div className="relative group">
+                            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" size={18} />
+                            <input
+                                type="email"
+                                required
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                placeholder="name@example.com"
+                                className="input-field pl-10"
+                                autoFocus
+                            />
+                        </div>
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <div className="flex justify-between items-center">
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                            <a href="#" className="text-xs font-medium text-blue-600 hover:text-blue-700">Forgot password?</a>
+                        </div>
+                        <div className="relative group">
+                            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" size={18} />
+                            <input
+                                type="password"
+                                required
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                placeholder="••••••••"
+                                className="input-field pl-10"
+                            />
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="btn-primary w-full py-2.5 flex items-center justify-center gap-2 mt-2"
+                    >
+                        {loading && <Loader2 size={18} className="animate-spin" />}
+                        {loading ? 'Signing in...' : 'Sign In'}
+                    </button>
+                </form>
+
+                <div className="mt-8 text-center">
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                        Don't have an account?{' '}
+                        <Link to="/register" className="font-semibold text-blue-600 hover:text-blue-700 hover:underline">
+                            Create Account
+                        </Link>
+                    </p>
+                </div>
+            </div>
+
+            <div className="mt-8 p-4 rounded-xl bg-white/50 dark:bg-zinc-800/50 backdrop-blur-sm border border-gray-200 dark:border-zinc-700 text-center max-w-xs">
+                <p className="text-xs font-mono text-gray-500 dark:text-gray-400 select-all">
+                    <span className="font-bold text-gray-700 dark:text-gray-300 block mb-1">Demo Credentials:</span>
+                    admin@shawty.link / admin123
+                </p>
+            </div>
+
+            <div className="mt-8 text-center">
+                <p className="text-xs text-gray-400 dark:text-gray-500">
+                    © {new Date().getFullYear()} Certified Lunatics
+                </p>
+                <p className="text-[10px] text-gray-400 dark:text-gray-600 font-medium tracking-wide uppercase mt-1">
+                    A Part of Rivaldi's Network
+                </p>
+            </div>
+        </div>
+    )
+}
