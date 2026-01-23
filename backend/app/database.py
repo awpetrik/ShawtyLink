@@ -4,7 +4,10 @@ from sqlalchemy.ext.declarative import declarative_base
 import os
 
 # Default to the docker-compose value if local env is not set
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+asyncpg://shawty:shawtyrools@localhost:5432/shawtylink")
+# Require DATABASE_URL to be set
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is not set")
 
 engine = create_async_engine(DATABASE_URL, echo=False)
 

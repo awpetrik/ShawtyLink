@@ -11,7 +11,13 @@ import os
 from . import schemas, models, database
 
 # Config
-SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkeyCHANGE_ME_IN_PROD")
+SECRET_KEY = os.getenv("SECRET_KEY")
+if not SECRET_KEY:
+    # Fallback only for local dev if absolutely necessary, but better to enforce env var
+    # Or just raise error. For now, let's raise error to be secure.
+    if os.getenv("ENV") != "development":
+        raise ValueError("SECRET_KEY environment variable is not set")
+    SECRET_KEY = "dev_secret_key_only_for_local_testing"
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 60))
 

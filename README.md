@@ -1,129 +1,116 @@
-# Shawty Link - Shorten your long ass URL.
+# Shawty Link - The Modern SaaS URL Shortener
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 
-<img width="612" height="897" alt="image" src="https://github.com/user-attachments/assets/2bc7cebe-2a77-4596-9c52-cb9107d9dad2" />
+A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired design. Built for speed, privacy, and scalability.
 
-A simple, private, and powerful URL shortener with a premium, Apple-inspired user interface. Built with modern web technologies and containerized for easy deployment.
+## ✨ Features (v2.0.0)
 
-## ✨ Features
-
-- **🚀 Good Performance**: Powered by Vite and FastAPI for lightning-fast responses.
-- **📱 Fully Responsive**: A seamless experience across desktop, tablet, and mobile devices.
-- **🎨 Modern UI/UX**: clean, glassmorphism-based design with smooth animations and transitions.
-- **🌗 Dark/Light Mode**: automatically respects system preferences with a manual override option.
-- **📊 Real-time Analytics**:
-  - Live click tracking (polling updates every 3s).
-  - Detailed charts for clicks over time (7d, 14d, 30d).
-  - Geographic, device, and referrer breakdowns.
-- **🛡️ Admin Dashboard**:
-  - Secure management of all shortened links.
-  - Delete unwanted links with confirmation.
-  - View "Active Links" and "Top Performing" stats at a glance.
-- **🐳 Dockerized**: One-command deployment using Docker Compose.
+- **� User System**: Full SaaS architecture with Login, Register, and JWT Authentication.
+- **� Robust Storage**: Moved from SQLite to **PostgreSQL** for production-grade reliability.
+- **⚡ High-Speed Caching**: Integrated **Redis** to caching redirects (zero-latency).
+- **� Premium UI/UX**:
+  - Cosmic Particle Background (WebGL/OGL) with parallax effect.
+  - Glassmorphism architecture with dark/light mode support.
+  - Fully responsive design for all devices.
+- **� User Dashboard**:
+  - Manage your links (CRUD).
+  - QR Code generation for any link.
+  - Real-time click tracking.
 
 ## 🛠 Tech Stack
 
 ### Frontend
-- **Framework**: React 19
-- **Build Tool**: Vite
-- **Styling**: Vanilla CSS (CSS Variables, Flexbox/Grid, Glassmorphism)
-- **Charts**: Recharts
-- **HTTP Client**: Native Fetch API
+- **Framework**: React 19 + Vite
+- **Styling**: Tailwind CSS + Framer Motion
+- **Visuals**: OGL (WebGL Particles)
+- **State**: Context API
 
 ### Backend
-- **Framework**: FastAPI (Python 3.9+)
-- **Server**: Uvicorn
-- **Database**: SQLite (via SQLAlchemy)
-- **Validation**: Pydantic
+- **Framework**: FastAPI (Python 3.12+)
+- **Database**: PostgreSQL (Async SQLAlchemy)
+- **Cache**: Redis
+- **Auth**: OAuth2 with Password + Bearer JWT
 
 ### Infrastructure
-- **Containerization**: Docker & Docker Compose
-- **Web Server**: Nginx (Alpine Linux)
+- **Containers**: Docker & Docker Compose
+- **Server**: Nginx (Alpine Linux)
 
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Docker
-- Docker Compose
+- Docker & Docker Compose
+- Git
 
-### Installation & Running
+### Installation
 
-1. **Clone the repository** (if applicable)
+1. **Clone the repository**
    ```bash
    git clone https://github.com/awpetrik/ShawtyLink.git
    cd ShawtyLink
    ```
 
-2. **Start the application**
-   Run the following command in the root directory:
+2. **Configure Environment**
+   You **MUST** create a `.env` file to run the application. We have provided an example file.
    ```bash
-   docker-compose up --build
+   cp .env.example .env
    ```
-   This will build the frontend and backend images and start the services.
+   
+   Open `.env` and fill in your secure credentials:
+   ```env
+   # Database
+   POSTGRES_USER=shawty
+   POSTGRES_PASSWORD=your_secure_password
+   POSTGRES_DB=shawtylink
 
-3. **Access the Application**
-   - **Main App**: [http://localhost:1603](http://localhost:1603)
-   - **Admin Dashboard**: [http://localhost:1603/admin](http://localhost:1603/admin)
-   - **Backend API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+   # Security
+   SECRET_KEY=generate_a_very_long_random_secret_string
+   ALGORITHM=HS256
+   
+   # Admin (Optional - for future use)
+   INITIAL_ADMIN_EMAIL=admin@shawty.link
+   INITIAL_ADMIN_PASSWORD=admin123
+   ```
+
+3. **Run with Docker**
+   Spin up the entire stack (Frontend, Backend, Postgres, Redis, Nginx):
+   ```bash
+   docker-compose up -d --build
+   ```
+
+4. **Access the Application**
+   - **Frontend**: [http://localhost:1603](http://localhost:1603)
+   - **Backend API**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
 ## 📂 Project Structure
 
 ```
 ├── backend/
 │   ├── app/
-│   │   ├── main.py        # FastAPI application & endpoints
-│   ├── Dockerfile
-│   ├── requirements.txt
-│   └── sql_app.db         # SQLite database (generated)
+│   │   ├── routers/       # API Routes (Auth, URLs, Users)
+│   │   ├── models.py      # Database Tables
+│   │   ├── schemas.py     # Pydantic Models
+│   │   └── database.py    # DB Connection
+│   └── Dockerfile
 ├── frontend/
 │   ├── src/
-│   │   ├── views/         # Page components (Home, Admin, Verify)
-│   │   ├── App.jsx        # Main Layout & Routing
-│   │   ├── index.css      # Global Styles
-│   ├── Dockerfile
-│   ├── nginx.conf         # Nginx configuration
-│   └── package.json
-└── docker-compose.yml     # Orchestration
+│   │   ├── components/    # Reusable UI (Particles, Modals)
+│   │   ├── pages/         # Dashboard, Links, Settings
+│   │   └── views/         # Public Pages (Home, Login)
+│   └── Dockerfile
+├── docker-compose.yml     # Service Orchestration
+└── .env                   # Environment Secrets (GitIgnored)
 ```
 
-## 📝 Usage
+## 📝 Changelog
 
-### Shortening a URL
-1. Enter your long URL in the input box on the home page.
-2. (Optional) Enter a custom alias.
-3. Click the arrow button or press Enter.
-4. Copy your new short link!
+See [CHANGELOG.md](./CHANGELOG.md) for a detailed history of changes.
 
-### Admin Dashboard
-Navigate to `/admin` to view statistics.
-- **Overview**: See total active links and total clicks.
-- **Detailed Stats**: Click on the "Total Clicks" card to view detailed analytics graphs.
-- **Manage Links**: Click on "Active Links" to view a full list and delete specific URLs.
+---
 
-## ☁️ Deployment
-
-### Deploy to Render (Recommended)
-This project is configured with a `render.yaml` Blueprint for easy deployment.
-
-1. **Push your code** to GitHub.
-2. Log in to [Render.com](https://render.com).
-3. Click "New" → "Blueprint".
-4. Connect your repository.
-5. Render will automatically detect the `shawty-backend` and `shawty-frontend` services.
-6. Click **Apply**.
-
-Your app will be live in minutes! The frontend will automatically connect to the backend.
-
-### Manual Deployment
-If you prefer manual setup:
-- **Backend**: Deploy `backend/` as a Docker Web Service.
-- **Frontend**: Deploy `frontend/` as a Static Site. Set the Build Command to `npm install && npm run build` and Publish Directory to `dist`.
-  - **Important**: Add an environment variable `VITE_API_URL` to the Frontend service pointing to your Backend URL (e.g., `https://your-backend.onrender.com`).
-
-
+**Certified Lunatics** — A Part of Rivaldi's Network
