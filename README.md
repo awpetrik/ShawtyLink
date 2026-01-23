@@ -7,18 +7,20 @@
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
+<img width="1582" height="957" alt="image" src="https://github.com/user-attachments/assets/335c55ca-8cfa-4280-b2ce-20f6692053ae" />
+
 A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired design. Built for speed, privacy, and scalability.
 
 ## ✨ Features (v2.0.0)
 
-- **� User System**: Full SaaS architecture with Login, Register, and JWT Authentication.
-- **� Robust Storage**: Moved from SQLite to **PostgreSQL** for production-grade reliability.
-- **⚡ High-Speed Caching**: Integrated **Redis** to caching redirects (zero-latency).
-- **� Premium UI/UX**:
+- ** User System**: Full SaaS architecture with Login, Register, and JWT Authentication.
+- ** Robust Storage**: Moved from SQLite to **PostgreSQL** for production-grade reliability.
+- ** High-Speed Caching**: Integrated **Redis** to caching redirects (zero-latency).
+- ** Premium UI/UX**:
   - Cosmic Particle Background (WebGL/OGL) with parallax effect.
   - Glassmorphism architecture with dark/light mode support.
   - Fully responsive design for all devices.
-- **� User Dashboard**:
+- ** User Dashboard**:
   - Manage your links (CRUD).
   - QR Code generation for any link.
   - Real-time click tracking.
