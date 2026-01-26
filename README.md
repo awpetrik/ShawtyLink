@@ -7,7 +7,7 @@
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
 
-<img width="1280" height="774" alt="image" src="https://github.com/user-attachments/assets/8556d2b4-2c7c-4907-bd3a-bb41eee74e0f" />
+<img width="1280" height="771" alt="image" src="https://github.com/user-attachments/assets/c048f28b-4729-4c60-8271-0eb266dc7369" />
 
 A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired design. Built for speed, privacy, and scalability.
 
@@ -41,7 +41,7 @@ A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired desig
 - **Click Limits**: Define maximum clicks before link deactivation.
 - **Custom Aliases**: Choose your own short codes.
 
-## 🔮 Planned Features (Next)
+## 📝 Planned Features (Next)
 - **Analytics Dashboard**: Detailed click analytics with graphs and geo-location data.
 - **Custom Domains**: Support for your own branded short domains.
 - **QR Code Customization**: Add logos and customize QR code design.
