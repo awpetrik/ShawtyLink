@@ -30,22 +30,30 @@ A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired desig
 
 ### Admin Panel
 
-<img width="1280" height="757" alt="image" src="https://github.com/user-attachments/assets/e6ed0685-8218-4287-8bb9-a3c3e2cc32cf" />
+<p align="center">
+  <img width="1280" height="757" alt="image" src="https://github.com/user-attachments/assets/e6ed0685-8218-4287-8bb9-a3c3e2cc32cf" />
+</p>
 
 - **User Management**: Create, edit, and delete users.
 - **Role Management**: Assign admin/superuser roles.
 - **Global Analytics**: Site-wide statistics dashboard.
 - **CSV Reports**: Export user data and analytics.
 
+---
+
 ### Advanced Link Features (NEW in v2.1.0) 🎉
 
-<img width="1280" height="934" alt="image" src="https://github.com/user-attachments/assets/e418c4d5-dbfa-47fb-9120-f38d2108c163" />
+<p align="center">
+  <img width="1280" height="934" alt="image" src="https://github.com/user-attachments/assets/e418c4d5-dbfa-47fb-9120-f38d2108c163" />
+</p>
 
 - **Password Protection**: Secure your links with password authentication.
 - **Unlock Page**: Beautiful password entry page with show/hide toggle.
 - **Link Expiration**: Set expiration dates for temporary links.
 - **Click Limits**: Define maximum clicks before link deactivation.
 - **Custom Aliases**: Choose your own short codes.
+
+---
 
 ## 📝 Planned Features (Next)
 - **Analytics Dashboard**: Detailed click analytics with graphs and geo-location data.
@@ -55,6 +63,8 @@ A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired desig
 - **API Keys**: Generate API keys for programmatic link creation.
 - **Webhooks**: Real-time notifications for link events.
 - **Team Workspaces**: Collaborate with team members on shared links.
+
+---
 
 ## 🛠 Tech Stack
 
@@ -73,6 +83,8 @@ A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired desig
 ### Infrastructure
 - **Containers**: Docker & Docker Compose
 - **Server**: Nginx (Alpine Linux)
+
+---
 
 ## 🚀 Getting Started
 
@@ -120,6 +132,8 @@ A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired desig
    - **Frontend**: [http://localhost:1603](http://localhost:1603)
    - **Backend API**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
+---
+
 ## 📂 Project Structure
 
 ```
@@ -139,6 +153,8 @@ A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired desig
 ├── docker-compose.yml     # Service Orchestration
 └── .env                   # Environment Secrets (GitIgnored)
 ```
+
+---
 
 ## 📝 Changelog
 
