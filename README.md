@@ -29,12 +29,18 @@ A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired desig
 - **Account Security**: Self-service account deletion with password verification.
 
 ### Admin Panel
+
+<img width="1280" height="757" alt="image" src="https://github.com/user-attachments/assets/e6ed0685-8218-4287-8bb9-a3c3e2cc32cf" />
+
 - **User Management**: Create, edit, and delete users.
 - **Role Management**: Assign admin/superuser roles.
 - **Global Analytics**: Site-wide statistics dashboard.
 - **CSV Reports**: Export user data and analytics.
 
 ### Advanced Link Features (NEW in v2.1.0) 🎉
+
+<img width="1280" height="934" alt="image" src="https://github.com/user-attachments/assets/e418c4d5-dbfa-47fb-9120-f38d2108c163" />
+
 - **Password Protection**: Secure your links with password authentication.
 - **Unlock Page**: Beautiful password entry page with show/hide toggle.
 - **Link Expiration**: Set expiration dates for temporary links.
