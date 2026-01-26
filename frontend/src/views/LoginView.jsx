@@ -129,13 +129,6 @@ export default function LoginView() {
                 </div>
             </div>
 
-            <div className="mt-8 p-4 rounded-xl bg-white/50 dark:bg-zinc-800/50 backdrop-blur-sm border border-gray-200 dark:border-zinc-700 text-center max-w-xs">
-                <p className="text-xs font-mono text-gray-500 dark:text-gray-400 select-all">
-                    <span className="font-bold text-gray-700 dark:text-gray-300 block mb-1">Demo Credentials:</span>
-                    admin@shawty.link / admin123
-                </p>
-            </div>
-
             <div className="mt-8 text-center">
                 <p className="text-xs text-gray-400 dark:text-gray-500">
                     © {new Date().getFullYear()} Certified Lunatics
