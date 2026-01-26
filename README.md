@@ -1,4 +1,4 @@
-# Shawty Link - The Modern SaaS URL Shortener
+# ShawtyLink - The Modern SaaS URL Shortener
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
@@ -11,19 +11,44 @@
 
 A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired design. Built for speed, privacy, and scalability.
 
-## ✨ Features (v2.0.0)
+## ✨ Features (v2.1.0)
 
+### Core Features
 - **User System**: Full SaaS architecture with Login, Register, and JWT Authentication.
-- **Robust Storage**: Moved from SQLite to **PostgreSQL** for production-grade reliability.
-- **High-Speed Caching**: Integrated **Redis** to caching redirects (zero-latency).
+- **Robust Storage**: Production-grade **PostgreSQL** with async SQLAlchemy.
+- **High-Speed Caching**: **Redis** integration for zero-latency redirects.
 - **Premium UI/UX**:
   - Cosmic Particle Background (WebGL/OGL) with parallax effect.
   - Glassmorphism architecture with dark/light mode support.
   - Fully responsive design for all devices.
-- **User Dashboard**:
-  - Manage your links (CRUD).
-  - QR Code generation for any link.
-  - Real-time click tracking.
+
+### User Dashboard
+- **Link Management**: Full CRUD operations for your links.
+- **QR Code Generation**: Instant QR codes for any shortened link.
+- **Real-time Analytics**: Click tracking and statistics.
+- **Account Security**: Self-service account deletion with password verification.
+
+### Admin Panel
+- **User Management**: Create, edit, and delete users.
+- **Role Management**: Assign admin/superuser roles.
+- **Global Analytics**: Site-wide statistics dashboard.
+- **CSV Reports**: Export user data and analytics.
+
+### Advanced Link Features (NEW in v2.1.0) 🎉
+- **Password Protection**: Secure your links with password authentication.
+- **Unlock Page**: Beautiful password entry page with show/hide toggle.
+- **Link Expiration**: Set expiration dates for temporary links.
+- **Click Limits**: Define maximum clicks before link deactivation.
+- **Custom Aliases**: Choose your own short codes.
+
+## 🔮 Planned Features (Next)
+- **Analytics Dashboard**: Detailed click analytics with graphs and geo-location data.
+- **Custom Domains**: Support for your own branded short domains.
+- **QR Code Customization**: Add logos and customize QR code design.
+- **Link Tags & Folders**: Organize links with categories and folders.
+- **API Keys**: Generate API keys for programmatic link creation.
+- **Webhooks**: Real-time notifications for link events.
+- **Team Workspaces**: Collaborate with team members on shared links.
 
 ## 🛠 Tech Stack
 

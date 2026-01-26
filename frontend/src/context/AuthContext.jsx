@@ -130,7 +130,9 @@ export const AuthProvider = ({ children }) => {
             login,
             logout,
             register,
-            api
+            register,
+            api,
+            loading: status === AUTH_STATUS.UNKNOWN
         }}>
             {children}
         </AuthContext.Provider>

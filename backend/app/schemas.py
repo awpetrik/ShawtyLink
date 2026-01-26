@@ -35,6 +35,21 @@ class User(UserBase):
     class Config:
         from_attributes = True
 
+class UserCreateAdmin(UserCreate):
+    full_name: Optional[str] = None
+    is_superuser: bool = False
+    is_active: bool = True
+
+class UserUpdateAdmin(BaseModel):
+    full_name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+    is_active: Optional[bool] = None
+    is_superuser: Optional[bool] = None
+
+class UserDeleteConfirm(BaseModel):
+    password: str
+
 # --- URL Schemas ---
 class URLBase(BaseModel):
     original_url: str
@@ -70,5 +85,15 @@ class ClickEvent(BaseModel):
     user_agent: Optional[str] = None
     country: Optional[str] = None
     
+
     class Config:
         from_attributes = True
+
+class GlobalStats(BaseModel):
+    total_users: int
+    total_urls: int
+    total_clicks: int
+
+class UnlockRequest(BaseModel):
+    password: str
+

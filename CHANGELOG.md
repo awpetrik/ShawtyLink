@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v2.1.0] - 2026-01-26
+
+### 🎉 New Features
+- **Password Protection**: Links can now be protected with passwords for enhanced security.
+- **Unlock Page**: Beautiful password entry interface with show/hide toggle functionality.
+- **Link Expiration**: Set expiration dates for temporary links (auto-enforcement on redirect).
+- **Click Limits**: Define maximum clicks before link deactivation (auto-enforcement).
+- **Admin Panel - User Creation**: Admin can create new users directly from the dashboard.
+- **Admin Panel - Edit Users**: Update user roles, status, email, and name.
+- **Admin Panel - Delete Users**: Remove users with proper cascade deletion of their links.
+- **CSV Export**: Download user reports as CSV from admin dashboard.
+- **Account Self-Delete**: Users can delete their own accounts with password verification.
+
+### 🎨 UI/UX Improvements
+- **Rebranding**: Changed brand name from "Shawty Link" to "ShawtyLink" (no space) for consistency.
+- **Dashboard Dynamic Greeting**: Time-based greetings (Morning/Afternoon/Evening).
+- **Enhanced Password Fields**: Improved visibility and contrast in dark/light modes.
+- **Password Toggle**: Native browser password reveal button hidden to avoid duplication.
+- **Better Modals**: Improved Add User and Edit User modal designs.
+- **Empty State**: Clean "No Users" state with helpful messaging.
+
+### 🐛 Bug Fixes
+- **Duplicate Delete Call**: Fixed admin delete user endpoint calling `db.delete()` twice.
+- **Missing Cascade Delete**: Added cascade delete to User→URLs relationship to prevent orphaned data.
+- **Missing Expiration Validation**: Added enforcement for `expires_at` field in redirect logic.
+- **Missing Click Limit Validation**: Added enforcement for `max_clicks` field in both redirect and unlock endpoints.
+- **Password Redirect Issue**: Fixed nginx routing for `/unlock` path to properly serve frontend.
+- **Missing Environment Variable**: Added `FRONTEND_URL` to `.env.example` for password-protected redirects.
+- **UX Conflicts**: Removed conflicting keyboard shortcut hints from dashboard.
+
+### 🔧 Technical Improvements
+- **Better Error Handling**: Improved validation in unlock and redirect endpoints.
+- **Schema Organization**: Moved `UnlockRequest` schema to proper `schemas.py` file.
+- **Code Quality**: Cleaned up duplicate code and improved file organization.
+
 ## [v2.0.1] - 2026-01-26
 
 ### 🐛 Fixes & Improvements

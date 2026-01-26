@@ -76,7 +76,7 @@ export default function HomeView() {
                         <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
                             <Link2 size={20} className="rotate-45" />
                         </div>
-                        <span className="font-bold text-xl tracking-tight text-gray-900 dark:text-white">Shawty Link</span>
+                        <span className="font-bold text-xl tracking-tight text-gray-900 dark:text-white">ShawtyLink</span>
                     </div>
                     <div className="flex items-center gap-4">
                         <Link to="/login" className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">

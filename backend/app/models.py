@@ -15,7 +15,7 @@ class User(Base):
     full_name = Column(String, nullable=True)
     bio = Column(String, nullable=True)
 
-    urls = relationship("URL", back_populates="owner")
+    urls = relationship("URL", back_populates="owner", cascade="all, delete-orphan")
 
 class URL(Base):
     __tablename__ = "urls"

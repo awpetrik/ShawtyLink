@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
-import { Link2, BarChart2, Settings, LogOut, Menu, X, LayoutDashboard } from 'lucide-react'
+import { Link2, BarChart2, Settings, LogOut, Menu, X, LayoutDashboard, Shield } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
@@ -25,6 +25,10 @@ export default function Navbar() {
         { name: 'Settings', path: '/settings', icon: Settings },
     ]
 
+    if (user?.is_superuser) {
+        navLinks.push({ name: 'Admin', path: '/admin', icon: Shield })
+    }
+
     const isActive = (path) => location.pathname === path
 
     return (
@@ -39,7 +43,7 @@ export default function Navbar() {
                         <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
                             <Link2 size={20} className="rotate-45" />
                         </div>
-                        <span className="font-bold text-xl tracking-tight text-gray-900 dark:text-white">Shawty Link</span>
+                        <span className="font-bold text-xl tracking-tight text-gray-900 dark:text-white">ShawtyLink</span>
                     </Link>
 
                     {/* Desktop Navigation */}

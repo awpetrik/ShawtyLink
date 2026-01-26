@@ -5,11 +5,13 @@ import {
     Trash2, Download, LogOut, Check, Monitor, LayoutGrid, Globe
 } from 'lucide-react'
 import clsx from 'clsx'
+import DeleteAccountModal from '../components/settings/DeleteAccountModal'
 
 export default function Settings() {
     const { user, api, logout } = useAuth()
     const [loading, setLoading] = useState(false)
     const [msg, setMsg] = useState(null)
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
     // Form State
     const [profile, setProfile] = useState({
@@ -224,13 +226,21 @@ export default function Settings() {
                             <h3 className="font-semibold text-red-600">Delete Account</h3>
                             <p className="text-sm text-gray-500">Permanently remove your account and all data.</p>
                         </div>
-                        <button className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-lg shadow-red-500/20">
+                        <button
+                            onClick={() => setIsDeleteModalOpen(true)}
+                            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors flex items-center gap-2 shadow-lg shadow-red-500/20"
+                        >
                             <Trash2 size={16} />
                             Delete Account
                         </button>
                     </div>
                 </div>
             </section>
+
+            <DeleteAccountModal
+                isOpen={isDeleteModalOpen}
+                onClose={() => setIsDeleteModalOpen(false)}
+            />
         </div>
     )
 }

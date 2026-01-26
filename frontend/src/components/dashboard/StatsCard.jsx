@@ -20,7 +20,7 @@ const mockData = [
     { v: 10 }, { v: 15 }, { v: 8 }, { v: 12 }, { v: 20 }, { v: 18 }, { v: 24 }
 ]
 
-export default function StatsCard({ title, value, change, icon: Icon, delay = 0, color = "blue" }) {
+export default function StatsCard({ title, value, change, icon: Icon, delay = 0, color = "blue", onClick }) {
     const isPositive = change > 0
     const isNeutral = change === 0 || change === undefined
 
@@ -38,19 +38,32 @@ export default function StatsCard({ title, value, change, icon: Icon, delay = 0,
         orange: "#ea580c",
     }
 
+    const handleClick = () => {
+        if (onClick) onClick()
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay }}
-            whileHover={{ y: -4, transition: { duration: 0.2 } }}
-            className="group bg-white dark:bg-zinc-800 p-6 rounded-2xl border border-gray-100 dark:border-zinc-700 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all relative overflow-hidden"
+            whileHover={onClick ? { y: -4, transition: { duration: 0.2 }, cursor: 'pointer' } : { y: -4, transition: { duration: 0.2 } }}
+            onClick={handleClick}
+            className={clsx(
+                "group bg-white dark:bg-zinc-800 p-6 rounded-2xl border border-gray-100 dark:border-zinc-700 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] transition-all relative overflow-hidden",
+                onClick && "cursor-pointer active:scale-[0.98]"
+            )}
         >
             <div className="flex justify-between items-start mb-2 relative z-10">
                 <div className={clsx("p-2 rounded-xl transition-colors", colorStyles[color])}>
                     <Icon size={20} />
                 </div>
-                {change !== undefined && (
+                {onClick && (
+                    <div className="absolute top-0 right-0 p-2 text-gray-300 dark:text-zinc-600 group-hover:text-blue-500 transition-colors">
+                        <ArrowUpRight size={20} />
+                    </div>
+                )}
+                {change !== undefined && !onClick && (
                     <div className={clsx(
                         "flex items-center gap-1 text-xs font-semibold px-2 py-1 rounded-full",
                         isPositive ? "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400" :

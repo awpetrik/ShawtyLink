@@ -45,6 +45,13 @@ export default function Dashboard() {
     const hasLinks = stats?.active_links > 0 || stats?.total_clicks > 0
     const firstName = user?.email?.split('@')[0] || 'User'
 
+    const getGreeting = () => {
+        const hour = new Date().getHours()
+        if (hour < 12) return 'Good morning'
+        if (hour < 18) return 'Good afternoon'
+        return 'Good evening'
+    }
+
     return (
         <div className="space-y-8">
             <CreateLinkModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
@@ -53,7 +60,7 @@ export default function Dashboard() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-                        Good morning, <span className="text-blue-600 dark:text-blue-400 capitalize">{firstName}</span>
+                        {getGreeting()}, <span className="text-blue-600 dark:text-blue-400 capitalize">{firstName}</span>
                     </h1>
                     <p className="text-gray-500 dark:text-gray-400 mt-2">
                         {hasLinks
@@ -150,10 +157,10 @@ export default function Dashboard() {
                                     Share your links on social media platforms between 9AM - 11AM on Tuesdays for maximum engagement.
                                 </p>
 
-                                <button className="w-full bg-white text-blue-600 px-4 py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2">
+                                <Link to="/analytics" className="w-full bg-white text-blue-600 px-4 py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2">
                                     View Analytics
                                     <BarChart3 size={16} />
-                                </button>
+                                </Link>
                             </div>
                         </motion.div>
                     </div>

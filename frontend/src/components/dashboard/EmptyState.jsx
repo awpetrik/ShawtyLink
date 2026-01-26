@@ -31,9 +31,7 @@ export default function EmptyState({ onCreateClick }) {
                     + Create Your First Link
                 </button>
 
-                <p className="text-xs text-gray-400 bg-gray-50 dark:bg-zinc-900 px-3 py-1 rounded border border-gray-200 dark:border-zinc-700">
-                    Pro tip: Press <kbd className="font-sans font-bold text-gray-600 dark:text-gray-300">⌘N</kbd> or <kbd className="font-sans font-bold text-gray-600 dark:text-gray-300">Ctrl+N</kbd> anytime
-                </p>
+
             </div>
 
             {/* Quick Tips */}

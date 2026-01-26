@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Link2, Settings, Copy, Check, AlertCircle, Loader2, Sparkles } from 'lucide-react'
+import { X, Link2, Settings, Copy, Check, AlertCircle, Loader2, Sparkles, Lock } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import clsx from 'clsx'
 
@@ -8,6 +8,7 @@ export default function CreateLinkModal({ isOpen, onClose }) {
     const { api } = useAuth()
     const [url, setUrl] = useState('')
     const [customAlias, setCustomAlias] = useState('')
+    const [password, setPassword] = useState('')
     const [aliasAvailable, setAliasAvailable] = useState(null)
     const [showOptions, setShowOptions] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -20,6 +21,7 @@ export default function CreateLinkModal({ isOpen, onClose }) {
         if (isOpen) {
             setUrl('')
             setCustomAlias('')
+            setPassword('')
             setAliasAvailable(null)
             setShowOptions(false)
             setResult(null)
@@ -56,7 +58,8 @@ export default function CreateLinkModal({ isOpen, onClose }) {
         try {
             const payload = {
                 original_url: url,
-                custom_alias: customAlias || null
+                custom_alias: customAlias || null,
+                password: password || null
             }
 
             const res = await api.post('/shorten_auth', payload)
@@ -174,14 +177,28 @@ export default function CreateLinkModal({ isOpen, onClose }) {
                                                         exit={{ height: 0, opacity: 0 }}
                                                         className="overflow-hidden"
                                                     >
-                                                        <div className="pt-4 grid grid-cols-2 gap-4">
+                                                        <div className="pt-4 space-y-4">
                                                             <div className="space-y-1.5">
-                                                                <label className="text-xs font-medium text-gray-500">Max Clicks</label>
-                                                                <input type="number" placeholder="Unlimited" className="input-field py-2 text-sm" />
+                                                                <label className="text-xs font-medium text-gray-500 flex items-center gap-1">
+                                                                    <Lock size={12} /> Password Protection (Optional)
+                                                                </label>
+                                                                <input
+                                                                    type="password"
+                                                                    placeholder="Set a password..."
+                                                                    value={password}
+                                                                    onChange={e => setPassword(e.target.value)}
+                                                                    className="input-field py-2 text-sm"
+                                                                />
                                                             </div>
-                                                            <div className="space-y-1.5">
-                                                                <label className="text-xs font-medium text-gray-500">Expiration</label>
-                                                                <input type="date" className="input-field py-2 text-sm" />
+                                                            <div className="grid grid-cols-2 gap-4">
+                                                                <div className="space-y-1.5">
+                                                                    <label className="text-xs font-medium text-gray-500">Max Clicks</label>
+                                                                    <input type="number" placeholder="Unlimited" className="input-field py-2 text-sm" />
+                                                                </div>
+                                                                <div className="space-y-1.5">
+                                                                    <label className="text-xs font-medium text-gray-500">Expiration</label>
+                                                                    <input type="date" className="input-field py-2 text-sm" />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </motion.div>
@@ -235,7 +252,6 @@ export default function CreateLinkModal({ isOpen, onClose }) {
                                                     setResult(null)
                                                     setUrl('')
                                                     onClose()
-                                                    // Optional: Reload links list
                                                     window.location.reload()
                                                 }}
                                                 className="py-2.5 px-4 rounded-xl border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800 transition-colors font-medium"

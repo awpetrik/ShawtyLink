@@ -50,7 +50,7 @@ export default function RegisterView() {
                 <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
                     <Link2 size={24} className="rotate-45" />
                 </div>
-                <span className="font-bold text-2xl tracking-tight text-gray-900 dark:text-white">Shawty Link</span>
+                <span className="font-bold text-2xl tracking-tight text-gray-900 dark:text-white">ShawtyLink</span>
             </Link>
 
             <div className="w-full max-w-md bg-white dark:bg-zinc-800 rounded-3xl border border-gray-100 dark:border-zinc-700 shadow-xl shadow-gray-200/50 dark:shadow-black/20 p-8 sm:p-10 transition-all">
