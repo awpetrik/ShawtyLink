@@ -237,31 +237,6 @@ def generate_short_code(length=6):
     chars = string.ascii_letters + string.digits
     return ''.join(random.choice(chars) for _ in range(length))
 
-@app.post("/shorten", response_model=schemas.URL)
-async def create_short_url(
-    url_in: schemas.URLCreate, 
-    db: AsyncSession = Depends(database.get_db),
-    # Allow anonymous for hero section demo, but maybe associate with cookie/session later?
-    # For now, let's allow None user.
-    # To fix "User Authentication" requirement, we said "Enforce login for features".
-    # But Landing Page has "Shorten Now". Let's handle: if not logged in -> create but don't assign user_id.
-    # It will work but user can't manage it.
-): 
-    # Use Depends logic to get user or None manually? 
-    # FastAPI doesn't support Optional Depends easily.
-    # Workaround: Check header manually or use a lenient dependency.
-    pass # Will be handled inside function body via manual token check or just simple logic
-    
-    # We'll use the lenient approach:
-    # (Actually existing implementation enforced login? Let's check previous file content. 
-    # Previous: `current_user: models.User = Depends(auth.get_current_user)` -> This enforces login.
-    # This BREAKS Landing Page shortening.
-    # Fix: Create a `get_current_user_optional` in auth.py or here.
-    
-    # For this rewrite, I will just proceed with the code below.
-    # Re-implementing logic with `user_id` optional.
-    pass
-
 @app.post("/shorten_auth", response_model=schemas.URL)
 async def create_short_url_auth(
     url_in: schemas.URLCreate, 
@@ -273,8 +248,25 @@ async def create_short_url_auth(
 @app.post("/shorten", response_model=schemas.URL)
 async def create_short_url_public(
     url_in: schemas.URLCreate, 
+    request: Request,
     db: AsyncSession = Depends(database.get_db)
 ):
+    # Rate Limiting for Guests
+    client_ip = request.client.host
+    rate_limit_key = f"rate_limit:{client_ip}"
+    
+    if redis_client:
+        current_count = await redis_client.get(rate_limit_key)
+        if current_count and int(current_count) >= 5:
+             raise HTTPException(status_code=429, detail="Rate limit exceeded. Please Sign Up for unlimited links.")
+        
+        # Increment and set expire if new
+        pipe = redis_client.pipeline()
+        pipe.incr(rate_limit_key)
+        if not current_count:
+            pipe.expire(rate_limit_key, 2592000) # 30 Days (1 Month)
+        await pipe.execute()
+
     # Public endpoint - no user tracking
     return await create_short_url_impl(url_in, db, None)
 

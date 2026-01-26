@@ -54,7 +54,7 @@ export default function HomeView() {
             {/* OGL Particles Background */}
             <div className="absolute inset-0 pointer-events-none dark:invert-0 invert opacity-60 dark:opacity-100">
                 <Particles
-                    className="absolute inset-0 w-full h-full"
+                    className="absolute inset-0 w-full h-full pointer-events-none"
                     particleCount={200}
                     particleSpread={10}
                     speed={0.05}
@@ -108,7 +108,7 @@ export default function HomeView() {
 
                     {/* Shortener Box */}
                     <div className="max-w-2xl mx-auto mt-12 relative">
-                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl blur opacity-25 dark:opacity-40 animate-pulse"></div>
+
                         <div className="relative bg-white dark:bg-zinc-900 rounded-xl shadow-2xl border border-gray-100 dark:border-zinc-800 p-2 pl-4 flex flex-col md:flex-row items-center gap-2">
                             <input
                                 type="url"
@@ -126,6 +126,18 @@ export default function HomeView() {
                                 {loading ? 'Shortening...' : 'Shorten Now'}
                                 {!loading && <ArrowRight size={18} />}
                             </button>
+
+                        </div>
+
+                        {/* Upsell Helper Text */}
+                        <div className="text-sm text-gray-500 dark:text-gray-400 mt-3 animate-fade-in">
+                            <span className="inline-flex items-center gap-1">
+                                <Sparkles size={12} className="text-yellow-500" />
+                                <span>Want a custom alias (e.g. <strong>shawty.link/your-brand</strong>)?</span>
+                                <Link to="/register" className="text-blue-600 dark:text-blue-400 hover:underline font-medium ml-1">
+                                    Create free account
+                                </Link>
+                            </span>
                         </div>
 
                         {/* Result */}
@@ -138,12 +150,14 @@ export default function HomeView() {
                                 <button
                                     onClick={handleCopy}
                                     className={clsx(
-                                        "p-2 rounded-lg transition-colors flex items-center gap-2 text-sm font-medium shrink-0",
-                                        copied ? "bg-green-200 dark:bg-green-800 text-green-900 dark:text-green-100" : "bg-white dark:bg-zinc-900 shadow-sm text-gray-700 dark:text-gray-200"
+                                        "px-4 py-2 rounded-lg transition-all duration-200 flex items-center gap-2 text-sm font-bold shrink-0 shadow-md",
+                                        copied
+                                            ? "bg-green-500 hover:bg-green-600 text-white scale-105"
+                                            : "bg-white dark:bg-zinc-800 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-zinc-700 ring-1 ring-gray-200 dark:ring-zinc-700"
                                     )}
                                 >
-                                    {copied ? <Check size={16} /> : <Copy size={16} />}
-                                    {copied ? "Copied" : "Copy"}
+                                    {copied ? <Check size={18} className="animate-bounce" /> : <Copy size={18} />}
+                                    {copied ? "Copied!" : "Copy Link"}
                                 </button>
                             </div>
                         )}

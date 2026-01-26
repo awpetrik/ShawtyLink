@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v2.0.0] - 2026-01-23
+## [v2.0.1] - 2026-01-26
+
+### 🐛 Fixes & Improvements
+- **Guest Access**: Enabled URL shortening for unauthenticated users (Guests).
+- **Rate Limiting**: Implemented **Redis-based Rate Limiter** limiting guests to 5 links per 30 days per IP to prevent abuse.
+- **UI Interactivity**: Fixed issue where the Particle background blocked clicks on buttons (`pointer-events-none`).
+- **Copy Feedback**: Enhanced "Copy Link" button with clear green visual feedback and bounce animation.
+- **Upsell**: Added contextual "Create free account" helper text for custom alias upsell.
+- **Polishing**: Removed distracting glowing background effect from the input box.
+- **Backend**: Removed duplicate/broken endpoints in `main.py`.
+
 
 ### 🚀 Major Features
 - **SaaS Transformation**: Complete pivot from a simple URL shortener to a user-based SaaS platform.
