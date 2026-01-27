@@ -138,6 +138,9 @@ A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired desig
    - **Frontend**: [http://localhost:1603](http://localhost:1603)
    - **Backend API**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
+### 5. Updates
+To update your instance to the latest version safely (without losing data), please refer to our [Deployment Guide](./DEPLOYMENT.md#update-application-safe-method).
+
 ---
 
 ## 📂 Project Structure
