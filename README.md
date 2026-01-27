@@ -21,6 +21,8 @@ A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired desig
   - Cosmic Particle Background (WebGL/OGL) with parallax effect.
   - Glassmorphism architecture with dark/light mode support.
   - Fully responsive design for all devices.
+  - **New**: Mobile Card View for better usability on small screens.
+  - **New**: Global Toast Notifications for instant feedback.
 
 ### User Dashboard
 - **Link Management**: Full CRUD operations for your links.
