@@ -567,6 +567,14 @@ from fastapi import BackgroundTasks
 import httpx
 from user_agents import parse
 
+# Helper to extract real client IP behind proxy
+def get_client_ip(request: Request) -> str:
+    x_forwarded_for = request.headers.get("x-forwarded-for")
+    if x_forwarded_for:
+        # X-Forwarded-For can be a comma-separated list, first one is the client
+        return x_forwarded_for.split(",")[0].strip()
+    return request.headers.get("x-real-ip") or request.client.host
+
 # Background Task for Enriching Analytics
 async def process_click_stats(click_id: int, user_agent_str: str, client_ip: str):
     async with database.AsyncSessionLocal() as db:
@@ -576,9 +584,13 @@ async def process_click_stats(click_id: int, user_agent_str: str, client_ip: str
         
         # 2. GeoIP Lookup
         country = "Unknown"
-        # Mock for localhost development
-        if client_ip in ["127.0.0.1", "::1", "localhost"]:
-            country = "Indonesia (Dev)"
+        
+        # Filter Local/Private IPs
+        # Docker internal IPs usually start with 172. or 10. or 192.168.
+        is_private = client_ip.startswith(("127.", "::1", "10.", "172.", "192.168."))
+        
+        if is_private or client_ip == "localhost":
+            country = "Indonesia (Dev)" if client_ip in ["127.0.0.1", "::1", "localhost"] else "Unknown (Private IP)"
         else:
             try:
                 # Use public IP-API (free, limit 45 req/min)
@@ -588,6 +600,7 @@ async def process_click_stats(click_id: int, user_agent_str: str, client_ip: str
                         data = resp.json()
                         if data.get("status") == "success":
                             country = data.get("country", "Unknown")
+                            
             except Exception as e:
                 print(f"GeoIP Failed: {e}")
 
@@ -649,8 +662,9 @@ async def redirect_to_url(
     await db.refresh(click) # Get ID
     
     # Async Enrichment
-    client_ip = request.client.host
+    client_ip = get_client_ip(request)
     background_tasks.add_task(process_click_stats, click.id, user_agent, client_ip)
+    
     
     if redis_client: await redis_client.set(f"url:{short_code}", db_url.original_url, ex=3600)
     
@@ -697,7 +711,7 @@ async def unlock_url(
     await db.refresh(click)
     
     # Async Enrichment
-    client_ip = request.client.host
+    client_ip = get_client_ip(request)
     background_tasks.add_task(process_click_stats, click.id, user_agent, client_ip)
     
     return {"original_url": db_url.original_url}
