@@ -4,8 +4,11 @@ import { X, Link2, Settings, Copy, Check, AlertCircle, Loader2, Sparkles, Lock }
 import { useAuth } from '../../context/AuthContext'
 import clsx from 'clsx'
 
+import { useToast } from '../../context/ToastContext'
+
 export default function CreateLinkModal({ isOpen, onClose }) {
     const { api } = useAuth()
+    const { addToast } = useToast()
     const [url, setUrl] = useState('')
     const [customAlias, setCustomAlias] = useState('')
     const [password, setPassword] = useState('')
@@ -76,6 +79,7 @@ export default function CreateLinkModal({ isOpen, onClose }) {
         if (result) {
             navigator.clipboard.writeText(result)
             setCopied(true)
+            addToast("Short link copied to clipboard!")
             setTimeout(() => setCopied(false), 2000)
         }
     }
@@ -262,6 +266,9 @@ export default function CreateLinkModal({ isOpen, onClose }) {
                                                 onClick={() => {
                                                     setResult(null)
                                                     setUrl('')
+                                                    setCustomAlias('')
+                                                    setPassword('')
+                                                    setShowOptions(false)
                                                 }}
                                                 className="py-2.5 px-4 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition-colors font-medium shadow-lg shadow-blue-500/20"
                                             >

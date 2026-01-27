@@ -1,6 +1,21 @@
-import { Link2, Clock, MapPin } from 'lucide-react'
+import { useState } from 'react'
+import { Link2, Clock, MapPin, Copy, Check, Edit2 } from 'lucide-react'
+import clsx from 'clsx'
 
-export default function RecentActivity({ activities }) {
+import { useToast } from '../../context/ToastContext'
+
+export default function RecentActivity({ activities, onEdit }) {
+    const { addToast } = useToast()
+    const [copiedId, setCopiedId] = useState(null)
+
+    const handleCopy = (shortCode) => {
+        const url = `${window.location.origin}/${shortCode}`
+        navigator.clipboard.writeText(url)
+        setCopiedId(shortCode)
+        addToast("Link copied to clipboard!")
+        setTimeout(() => setCopiedId(null), 2000)
+    }
+
     if (!activities?.length) {
         return (
             <div className="text-center py-8 text-gray-500">
@@ -35,6 +50,25 @@ export default function RecentActivity({ activities }) {
                                 </span>
                             )}
                         </div>
+                    </div>
+
+                    <div className="flex items-center gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
+                        <button
+                            onClick={() => handleCopy(activity.short_code)}
+                            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                            title="Copy Link"
+                        >
+                            {copiedId === activity.short_code ? <Check size={16} className="text-green-500" /> : <Copy size={16} />}
+                        </button>
+                        {onEdit && (
+                            <button
+                                onClick={() => onEdit(activity)}
+                                className="p-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-zinc-700/50 rounded-lg transition-colors"
+                                title="Edit Link"
+                            >
+                                <Edit2 size={16} />
+                            </button>
+                        )}
                     </div>
                 </div>
             ))}

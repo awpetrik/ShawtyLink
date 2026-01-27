@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 
 import { AuthProvider } from './context/AuthContext'
+import { ToastProvider } from './context/ToastContext'
 import { ProtectedRoute, PublicOnlyRoute } from './components/RouteGuards'
 import Layout from './components/layout/Layout'
 
@@ -30,38 +31,40 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            {/* Public Routes with Layout if desired, or standalone */}
-            <Route path="/" element={<HomeView />} />
-            <Route path="/unlock/:shortCode" element={<UnlockLinkView />} />
+        <ToastProvider>
+          <BrowserRouter>
+            <Routes>
+              {/* Public Routes with Layout if desired, or standalone */}
+              <Route path="/" element={<HomeView />} />
+              <Route path="/unlock/:shortCode" element={<UnlockLinkView />} />
 
-            {/* Auth Pages */}
-            <Route element={<PublicOnlyRoute />}>
-              <Route path="/login" element={<LoginView />} />
-              <Route path="/register" element={<RegisterView />} />
-              <Route path="/verify/:token" element={<VerifyView />} />
-            </Route>
-
-            {/* Protected App Routes wrapped in Layout */}
-            <Route element={<ProtectedRoute />}>
-              <Route element={<Layout />}>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/links" element={<Links />} />
-                <Route path="/analytics" element={<Analytics />} />
-                <Route path="/settings" element={<Settings />} />
+              {/* Auth Pages */}
+              <Route element={<PublicOnlyRoute />}>
+                <Route path="/login" element={<LoginView />} />
+                <Route path="/register" element={<RegisterView />} />
+                <Route path="/verify/:token" element={<VerifyView />} />
               </Route>
-            </Route>
 
-            {/* Admin Routes */}
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<AdminDashboard />} />
-              <Route path="users" element={<AdminUsers />} />
-            </Route>
+              {/* Protected App Routes wrapped in Layout */}
+              <Route element={<ProtectedRoute />}>
+                <Route element={<Layout />}>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/links" element={<Links />} />
+                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/settings" element={<Settings />} />
+                </Route>
+              </Route>
 
-            <Route path="*" element={<NotFoundView />} />
-          </Routes>
-        </BrowserRouter>
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<AdminDashboard />} />
+                <Route path="users" element={<AdminUsers />} />
+              </Route>
+
+              <Route path="*" element={<NotFoundView />} />
+            </Routes>
+          </BrowserRouter>
+        </ToastProvider>
       </AuthProvider>
     </QueryClientProvider>
   )

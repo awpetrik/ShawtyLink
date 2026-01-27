@@ -79,7 +79,7 @@ export default function StatsCard({ title, value, change, icon: Icon, delay = 0,
             <div className="relative z-10">
                 <h3 className="text-gray-500 dark:text-gray-400 text-sm font-medium mb-1">{title}</h3>
                 <p className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    <Counter value={value} />
+                    {typeof value === 'number' ? <Counter value={value} /> : value}
                 </p>
 
                 <p className="text-xs text-gray-400 mt-1">vs last week</p>

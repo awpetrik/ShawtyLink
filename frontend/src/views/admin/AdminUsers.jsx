@@ -144,7 +144,8 @@ const AdminUsers = () => {
             </div>
 
             <div className="bg-white dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 rounded-3xl overflow-hidden shadow-sm">
-                <div className="overflow-x-auto">
+                {/* Desktop Table */}
+                <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
                             <tr className="bg-gray-50 dark:bg-zinc-900/50 text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wider font-semibold border-b border-gray-200 dark:border-zinc-700">
@@ -218,6 +219,72 @@ const AdminUsers = () => {
                             ))}
                         </tbody>
                     </table>
+                </div>
+
+                {/* Mobile Card View */}
+                <div className="md:hidden space-y-4 p-4">
+                    {filteredUsers.map((user) => (
+                        <div key={user.id} className="bg-gray-50 dark:bg-zinc-900/50 rounded-xl p-4 border border-gray-100 dark:border-zinc-700/50">
+                            <div className="flex items-center justify-between mb-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-blue-500/20">
+                                        {user.email[0].toUpperCase()}
+                                    </div>
+                                    <div>
+                                        <div className="font-medium text-gray-900 dark:text-white">{user.full_name || 'No Name'}</div>
+                                        <div className="text-xs text-gray-500 dark:text-gray-400">{user.email}</div>
+                                    </div>
+                                </div>
+                                <div className="flex gap-1">
+                                    <button
+                                        onClick={() => setEditingUser(user)}
+                                        className="p-2 hover:bg-white dark:hover:bg-zinc-700 rounded-lg text-gray-400 hover:text-blue-600 dark:hover:text-white transition-colors border border-transparent hover:border-gray-200 dark:hover:border-zinc-600"
+                                    >
+                                        <Edit2 className="w-4 h-4" />
+                                    </button>
+                                    <button
+                                        onClick={() => setDeletingUser(user)}
+                                        className="p-2 hover:bg-white dark:hover:bg-zinc-700 rounded-lg text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-zinc-600"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 text-sm border-t border-gray-200 dark:border-zinc-700 pt-4">
+                                <div>
+                                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-1">Status</p>
+                                    {user.is_active ? (
+                                        <span className="inline-flex items-center gap-1.5 text-green-600 dark:text-green-400 font-medium">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-green-500" /> Active
+                                        </span>
+                                    ) : (
+                                        <span className="inline-flex items-center gap-1.5 text-red-600 dark:text-red-400 font-medium">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-red-500" /> Inactive
+                                        </span>
+                                    )}
+                                </div>
+                                <div>
+                                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-1">Role</p>
+                                    {user.is_superuser ? (
+                                        <span className="inline-flex items-center gap-1.5 text-purple-600 dark:text-purple-400 font-medium">
+                                            <Shield className="w-3 h-3" /> Admin
+                                        </span>
+                                    ) : (
+                                        <span className="inline-flex items-center gap-1.5 text-gray-500 dark:text-gray-400 font-medium">
+                                            <User className="w-3 h-3" /> User
+                                        </span>
+                                    )}
+                                </div>
+                                <div className="col-span-2">
+                                    <p className="text-gray-500 dark:text-gray-400 text-xs mb-1">Joined</p>
+                                    <span className="text-gray-700 dark:text-gray-300">
+                                        {formatDate(user.created_at)}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
                 {filteredUsers.length === 0 && (
                     <div className="p-12 text-center text-gray-400">

@@ -103,7 +103,7 @@ export default function Navbar() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900"
+                        className="md:hidden border-t border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-xl"
                     >
                         <div className="px-4 py-3 space-y-1">
                             {navLinks.map((item) => (
@@ -112,21 +112,21 @@ export default function Navbar() {
                                     to={item.path}
                                     onClick={() => setIsMobileMenuOpen(false)}
                                     className={clsx(
-                                        "block px-3 py-2 rounded-lg text-base font-medium flex items-center gap-3",
+                                        "block px-3 py-3 rounded-xl text-base font-medium flex items-center gap-3 transition-colors",
                                         isActive(item.path)
-                                            ? "bg-gray-100 text-blue-600"
-                                            : "text-gray-600 hover:bg-gray-50"
+                                            ? "bg-blue-50 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300"
+                                            : "text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-zinc-800"
                                     )}
                                 >
-                                    <item.icon size={18} />
+                                    <item.icon size={20} />
                                     {item.name}
                                 </Link>
                             ))}
                             <button
                                 onClick={() => { logout(); setIsMobileMenuOpen(false); }}
-                                className="w-full text-left px-3 py-2 text-red-600 font-medium flex items-center gap-3 hover:bg-red-50 rounded-lg mt-2"
+                                className="w-full text-left px-3 py-3 text-red-600 dark:text-red-400 font-medium flex items-center gap-3 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl mt-2 transition-colors"
                             >
-                                <LogOut size={18} />
+                                <LogOut size={20} />
                                 Sign Out
                             </button>
                         </div>

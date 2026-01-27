@@ -104,9 +104,9 @@ export const AuthProvider = ({ children }) => {
         }
     }, [api])
 
-    const register = useCallback(async (email, password) => {
+    const register = useCallback(async (email, password, fullName) => {
         try {
-            const res = await api.post('/auth/register', { email, password })
+            const res = await api.post('/auth/register', { email, password, full_name: fullName })
             return { success: true, needsVerify: false } // Modify if email verification implemented
         } catch (error) {
             return {

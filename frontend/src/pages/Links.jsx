@@ -7,8 +7,11 @@ import EditLinkModal from '../components/links/EditLinkModal'
 import QRModal from '../components/links/QRModal'
 import clsx from 'clsx'
 
+import { useToast } from '../context/ToastContext'
+
 export default function Links() {
     const { api } = useAuth()
+    const { addToast } = useToast()
     const [links, setLinks] = useState([])
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState('')
@@ -43,6 +46,7 @@ export default function Links() {
         const url = `${window.location.origin}/${shortCode}`
         navigator.clipboard.writeText(url)
         setCopiedId(shortCode)
+        addToast("Link copied to clipboard!")
         setTimeout(() => setCopiedId(null), 2000)
     }
 
@@ -104,7 +108,8 @@ export default function Links() {
 
             {/* Table */}
             <div className="bg-white dark:bg-zinc-800 rounded-2xl border border-gray-200 dark:border-zinc-700 overflow-hidden shadow-sm">
-                <div className="overflow-x-auto">
+                {/* Desktop Table */}
+                <div className="hidden md:block overflow-x-auto">
                     <table className="w-full text-left">
                         <thead className="bg-gray-50 dark:bg-zinc-900/50 border-b border-gray-200 dark:border-zinc-700">
                             <tr>
@@ -176,7 +181,7 @@ export default function Links() {
                                             {new Date(link.created_at).toLocaleDateString()}
                                         </td>
                                         <td className="px-6 py-4 text-right">
-                                            <div className="flex justify-end gap-2 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <button
                                                     onClick={() => setEditLink(link)}
                                                     className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
@@ -206,6 +211,94 @@ export default function Links() {
                             )}
                         </tbody>
                     </table>
+                </div>
+
+                {/* Mobile Card Layout */}
+                <div className="md:hidden">
+                    {loading && links.length === 0 ? (
+                        [...Array(3)].map((_, i) => (
+                            <div key={i} className="p-4 border-b border-gray-100 dark:border-zinc-700 animate-pulse">
+                                <div className="h-4 bg-gray-200 dark:bg-zinc-700 rounded w-1/3 mb-2"></div>
+                                <div className="h-4 bg-gray-200 dark:bg-zinc-700 rounded w-2/3"></div>
+                            </div>
+                        ))
+                    ) : filteredLinks.length === 0 ? (
+                        <div className="p-8 text-center text-gray-500">
+                            {search ? "No links match your search" : "No links found. Create your first link!"}
+                        </div>
+                    ) : (
+                        filteredLinks.map((link) => (
+                            <div key={link.id} className="p-4 border-b border-gray-100 dark:border-zinc-700 last:border-0 hover:bg-gray-50 dark:hover:bg-zinc-800/50 transition-colors">
+                                <div className="flex justify-between items-start mb-2">
+                                    <div className="flex items-center gap-2">
+                                        <span className={clsx("font-medium text-lg", link.is_active ? "text-blue-600 dark:text-blue-400" : "text-gray-400 line-through")}>
+                                            /{link.short_code}
+                                        </span>
+                                        <button
+                                            onClick={() => handleCopy(link.short_code)}
+                                            className="p-1.5 bg-gray-100 dark:bg-zinc-800 text-gray-500 rounded-lg hover:text-blue-600 transition-colors"
+                                        >
+                                            {copiedId === link.short_code ? <Check size={14} className="text-green-500" /> : <Copy size={14} />}
+                                        </button>
+                                    </div>
+                                    <div className="flex gap-1">
+                                        <button
+                                            onClick={() => setEditLink(link)}
+                                            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                                        >
+                                            <Edit2 size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => setQrLink(link)}
+                                            className="p-2 text-gray-400 hover:text-purple-600 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded-lg transition-colors"
+                                        >
+                                            <QrCode size={18} />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(link.short_code)}
+                                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                                        >
+                                            {deleteLoading === link.short_code ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button
+                                    onClick={() => {
+                                        navigator.clipboard.writeText(link.original_url)
+                                        setCopiedId(`orig-${link.id}`)
+                                        addToast("Original URL copied!")
+                                        setTimeout(() => setCopiedId(null), 2000)
+                                    }}
+                                    className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 mb-3 bg-white dark:bg-zinc-800/80 border border-gray-100 dark:border-zinc-700/50 px-3 py-2 rounded-full w-full shadow-sm cursor-pointer hover:border-blue-200 dark:hover:border-blue-800 transition-colors text-left"
+                                >
+                                    {copiedId === `orig-${link.id}` ? (
+                                        <Check size={14} className="text-green-500 shrink-0" />
+                                    ) : (
+                                        <img
+                                            src={`https://www.google.com/s2/favicons?domain=${new URL(link.original_url).hostname}`}
+                                            alt=""
+                                            className="w-3.5 h-3.5 opacity-70 shrink-0"
+                                            onError={(e) => { e.target.style.display = 'none' }}
+                                        />
+                                    )}
+                                    <span className="truncate flex-1 font-mono">
+                                        {copiedId === `orig-${link.id}` ? "Copied to clipboard!" : link.original_url}
+                                    </span>
+                                </button>
+
+                                <div className="flex items-center justify-between text-xs text-gray-500">
+                                    <span className="flex items-center gap-1 bg-gray-100 dark:bg-zinc-800 px-2 py-1 rounded-md">
+                                        <ExternalLink size={12} />
+                                        {link.clicks} clicks
+                                    </span>
+                                    <span>
+                                        {new Date(link.created_at).toLocaleDateString()}
+                                    </span>
+                                </div>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </div>

@@ -5,8 +5,11 @@ import { useAuth, AUTH_STATUS } from '../context/AuthContext'
 import clsx from 'clsx'
 import Particles from '../components/ui/Particles'
 
+import { useToast } from '../context/ToastContext'
+
 export default function HomeView() {
     const { status, api } = useAuth()
+    const { addToast } = useToast()
     const navigate = useNavigate()
     const [url, setUrl] = useState('')
     const [loading, setLoading] = useState(false)
@@ -44,6 +47,7 @@ export default function HomeView() {
         if (result) {
             navigator.clipboard.writeText(result)
             setCopied(true)
+            addToast("Link copied to clipboard!")
             setTimeout(() => setCopied(false), 2000)
         }
     }

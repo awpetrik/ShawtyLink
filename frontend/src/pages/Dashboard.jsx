@@ -5,17 +5,22 @@ import StatsCard from '../components/dashboard/StatsCard'
 import RecentActivity from '../components/dashboard/RecentActivity'
 import EmptyState from '../components/dashboard/EmptyState'
 import CreateLinkModal from '../components/links/CreateLinkModal'
-import { Link } from 'react-router-dom'
+import EditLinkModal from '../components/links/EditLinkModal'
+import { Link, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
 export default function Dashboard() {
     const { user, api } = useAuth()
+    const navigate = useNavigate()
     const [stats, setStats] = useState(null)
     const [loading, setLoading] = useState(true)
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [editLink, setEditLink] = useState(null)
 
     useEffect(() => {
         const fetchStats = async () => {
+            // Only fetch if editLink is null (to avoid double fetch on modal close if not needed, 
+            // but actually we want to refresh stats after edit. So we can reuse this function)
             try {
                 const res = await api.get('/dashboard/stats')
                 setStats(res.data)
@@ -25,8 +30,9 @@ export default function Dashboard() {
                 setLoading(false)
             }
         }
-        fetchStats()
-    }, [api])
+        if (!editLink && !isModalOpen) fetchStats()
+        // Simple polling/refresh strategy could be better but sticking to ease
+    }, [api, editLink, isModalOpen])
 
     if (loading) {
         return (
@@ -43,7 +49,7 @@ export default function Dashboard() {
 
     // Determine state
     const hasLinks = stats?.active_links > 0 || stats?.total_clicks > 0
-    const firstName = user?.email?.split('@')[0] || 'User'
+    const firstName = user?.full_name || user?.email?.split('@')[0] || 'User'
 
     const getGreeting = () => {
         const hour = new Date().getHours()
@@ -55,6 +61,8 @@ export default function Dashboard() {
     return (
         <div className="space-y-8">
             <CreateLinkModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+            <EditLinkModal isOpen={!!editLink} onClose={() => setEditLink(null)} link={editLink} onSuccess={() => setEditLink(null)} />
+
 
             {/* Header */}
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
@@ -93,6 +101,7 @@ export default function Dashboard() {
                             change={12}
                             delay={0}
                             color="blue"
+                            onClick={() => navigate('/analytics')}
                         />
                         <StatsCard
                             title="Active Links"
@@ -101,6 +110,7 @@ export default function Dashboard() {
                             change={5}
                             delay={0.1}
                             color="green"
+                            onClick={() => navigate('/links')}
                         />
                         <StatsCard
                             title="Click Rate"
@@ -109,6 +119,7 @@ export default function Dashboard() {
                             change={2.4}
                             delay={0.2}
                             color="purple"
+                            onClick={() => navigate('/analytics')}
                         />
                         <StatsCard
                             title="Top Source"
@@ -116,6 +127,7 @@ export default function Dashboard() {
                             icon={Users}
                             delay={0.3}
                             color="orange"
+                            onClick={() => navigate('/analytics')}
                         />
                     </div>
 
@@ -134,7 +146,10 @@ export default function Dashboard() {
                                     View All
                                 </Link>
                             </div>
-                            <RecentActivity activities={stats?.recent_links} />
+                            <RecentActivity
+                                activities={stats?.recent_links}
+                                onEdit={(link) => setEditLink(link)}
+                            />
                         </motion.div>
 
                         {/* Sidebar (Pro Tip) */}
