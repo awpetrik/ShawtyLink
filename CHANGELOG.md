@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 ### 🎨 UI/UX Improvements
 - **Mobile Click-to-Copy**: Original URL in mobile view is now a clickable pill that copies to clipboard.
 - **Toast Positioning**: Optimized toast placement: Center-Bottom on Mobile, Right-Bottom on Desktop.
+- **Dynamic Domain**: UI now automatically displays the active domain (e.g., localhost or production URL) instead of hardcoded 'shawty.link'.
+- **Input Formatting**: Fixed text overlap issues in Custom Alias input using Flexbox.
 
 ### 🐛 Bug Fixes
 - **Analytics Dashboard**: Fixed NaN issues in statistics cards.

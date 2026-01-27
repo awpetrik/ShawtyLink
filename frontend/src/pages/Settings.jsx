@@ -191,7 +191,7 @@ export default function Settings() {
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Default Domain</label>
                             <select disabled className="input-field bg-gray-50 dark:bg-zinc-800 opacity-60">
-                                <option>shawty.link</option>
+                                <option>{window.location.host}</option>
                             </select>
                         </div>
                         <div>

@@ -150,14 +150,16 @@ export default function CreateLinkModal({ isOpen, onClose }) {
                                                     </span>
                                                 )}
                                             </div>
-                                            <div className="relative flex items-center">
-                                                <span className="absolute left-4 text-gray-400 text-sm font-medium">shawty.link/</span>
+                                            <div className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent flex items-center gap-0 focus-within:ring-2 focus-within:ring-blue-500/20 focus-within:border-blue-500 transition-all">
+                                                <span className="text-gray-400 text-sm font-medium shrink-0 select-none max-w-[50%] truncate">
+                                                    {window.location.host}/
+                                                </span>
                                                 <input
                                                     type="text"
                                                     placeholder="my-link"
                                                     value={customAlias}
                                                     onChange={e => setCustomAlias(e.target.value.replace(/[^a-zA-Z0-9-_]/g, ''))}
-                                                    className="input-field pl-24 font-mono text-sm"
+                                                    className="bg-transparent border-none outline-none flex-1 font-mono text-sm placeholder:text-gray-400 p-0 ml-0.5 min-w-0 text-gray-900 dark:text-white"
                                                     maxLength={20}
                                                 />
                                             </div>

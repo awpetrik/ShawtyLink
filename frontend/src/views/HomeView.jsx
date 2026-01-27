@@ -137,7 +137,7 @@ export default function HomeView() {
                         <div className="text-sm text-gray-500 dark:text-gray-400 mt-3 animate-fade-in">
                             <span className="inline-flex items-center gap-1">
                                 <Sparkles size={12} className="text-yellow-500" />
-                                <span>Want a custom alias (e.g. <strong>shawty.link/your-brand</strong>)?</span>
+                                <span>Want a custom alias (e.g. <strong>{window.location.host}/your-brand</strong>)?</span>
                                 <Link to="/register" className="text-blue-600 dark:text-blue-400 hover:underline font-medium ml-1">
                                     Create free account
                                 </Link>
