@@ -1,6 +1,19 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [v2.2.0] - 2026-01-27
+
+### 🎉 New Features
+- **Global Toast Notifications**: Premium toast popup system for successful actions (Copy Link, etc.).
+- **Mobile Card View**: Completely redesigned 'My Links' on mobile for better usability (No more horizontal scrolling).
+
+### 🎨 UI/UX Improvements
+- **Mobile Click-to-Copy**: Original URL in mobile view is now a clickable pill that copies to clipboard.
+- **Toast Positioning**: Optimized toast placement: Center-Bottom on Mobile, Right-Bottom on Desktop.
+
+### 🐛 Bug Fixes
+- **Analytics Dashboard**: Fixed NaN issues in statistics cards.
+
 
 ## [v2.1.0] - 2026-01-26
 

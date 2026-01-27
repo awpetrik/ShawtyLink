@@ -41,7 +41,7 @@ A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired desig
 
 ---
 
-### Advanced Link Features (NEW in v2.1.0) 🎉
+### Advanced Link Features (NEW in v2.2.0) 🎉
 
 <p align="center">
   <img width="1280" height="934" alt="image" src="https://github.com/user-attachments/assets/e418c4d5-dbfa-47fb-9120-f38d2108c163" />
