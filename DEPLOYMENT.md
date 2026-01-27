@@ -607,21 +607,24 @@ docker compose exec db pg_dump -U agora shawtylink > backup_$(date +%Y%m%d).sql
 docker compose exec -T db psql -U agora shawtylink < backup_20260127.sql
 ```
 
-### Update Application
+### Update Application (Safe Method)
+This method ensures your database and `.env` configuration remain intact.
 
 ```bash
 cd ~/ShawtyLink
 
-# Pull latest code
-git pull origin main
+# 1. Fetch latest updates
+git fetch --all --tags
 
-# Rebuild and restart
-docker compose down
-docker compose build --no-cache
-docker compose up -d
+# 2. Checkout specific version (Recommended)
+git checkout v2.2.0
 
-# Check logs
-docker compose logs -f
+# 3. Rebuild and restart containers (Preserves Data)
+# IMPORTANT: Do NOT use -v flag
+docker compose up -d --build
+
+# 4. Clean up old images (Optional)
+docker image prune -f
 ```
 
 ### View Logs
