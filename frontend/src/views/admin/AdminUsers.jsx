@@ -165,7 +165,7 @@ const AdminUsers = () => {
                                                 {user.email[0].toUpperCase()}
                                             </div>
                                             <div>
-                                                <div className="font-medium text-gray-900 dark:text-white">{user.full_name || 'No Name'}</div>
+                                                <div className="font-medium text-gray-900 dark:text-white">{user.full_name || user.email.split('@')[0]}</div>
                                                 <div className="text-sm text-gray-500 dark:text-gray-400">{user.email}</div>
                                             </div>
                                         </div>
@@ -231,7 +231,7 @@ const AdminUsers = () => {
                                         {user.email[0].toUpperCase()}
                                     </div>
                                     <div>
-                                        <div className="font-medium text-gray-900 dark:text-white">{user.full_name || 'No Name'}</div>
+                                        <div className="font-medium text-gray-900 dark:text-white">{user.full_name || user.email.split('@')[0]}</div>
                                         <div className="text-xs text-gray-500 dark:text-gray-400">{user.email}</div>
                                     </div>
                                 </div>
