@@ -94,7 +94,7 @@ export default function LoginView() {
                     <div className="space-y-1.5">
                         <div className="flex justify-between items-center">
                             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
-                            <a href="#" className="text-xs font-medium text-blue-600 hover:text-blue-700">Forgot password?</a>
+                            <Link to="/forgot-password" className="text-xs font-medium text-blue-600 hover:text-blue-700">Forgot password?</Link>
                         </div>
                         <div className="relative group">
                             <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" size={18} />

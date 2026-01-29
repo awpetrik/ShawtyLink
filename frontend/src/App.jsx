@@ -11,7 +11,13 @@ import HomeView from './views/HomeView' // We'll mock this to Home.jsx later
 import VerifyView from './views/VerifyView'
 import LoginView from './views/LoginView'
 import RegisterView from './views/RegisterView'
+import ForgotPasswordView from './views/ForgotPasswordView'
+import ResetPasswordView from './views/ResetPasswordView'
 import UnlockLinkView from './views/UnlockLinkView'
+import PrivacyPolicy from './views/legal/PrivacyPolicy'
+import TermsOfService from './views/legal/TermsOfService'
+import FAQ from './views/support/FAQ'
+import About from './views/about/About'
 
 // NEW Pages
 import Dashboard from './pages/Dashboard'
@@ -37,12 +43,18 @@ function App() {
               {/* Public Routes with Layout if desired, or standalone */}
               <Route path="/" element={<HomeView />} />
               <Route path="/unlock/:shortCode" element={<UnlockLinkView />} />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/about" element={<About />} />
 
               {/* Auth Pages */}
               <Route element={<PublicOnlyRoute />}>
                 <Route path="/login" element={<LoginView />} />
                 <Route path="/register" element={<RegisterView />} />
                 <Route path="/verify/:token" element={<VerifyView />} />
+                <Route path="/forgot-password" element={<ForgotPasswordView />} />
+                <Route path="/reset-password" element={<ResetPasswordView />} />
               </Route>
 
               {/* Protected App Routes wrapped in Layout */}

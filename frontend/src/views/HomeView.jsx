@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Link2, ArrowRight, Check, Copy, Sparkles, Shield, BarChart3, Zap } from 'lucide-react'
+import { Link2, ArrowRight, Check, Copy, Sparkles, Shield, BarChart3, Zap, Github, Instagram, AtSign, Music2 } from 'lucide-react'
 import { useAuth, AUTH_STATUS } from '../context/AuthContext'
 import clsx from 'clsx'
 import Particles from '../components/ui/Particles'
@@ -52,6 +52,37 @@ export default function HomeView() {
         }
     }
 
+    // Typing Effect Logic
+    const phrases = ["shorter.", "smarter.", "secure.", "reliable.", "memorable.", "sleek.", "trackable.", "instant."]
+    const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0)
+    const [displayText, setDisplayText] = useState("")
+    const [isDeleting, setIsDeleting] = useState(false)
+    const [typingSpeed, setTypingSpeed] = useState(150)
+
+    useEffect(() => {
+        const handleTyping = () => {
+            const currentPhrase = phrases[currentPhraseIndex]
+
+            if (isDeleting) {
+                setDisplayText(prev => currentPhrase.substring(0, prev.length - 1))
+                setTypingSpeed(50)
+            } else {
+                setDisplayText(prev => currentPhrase.substring(0, prev.length + 1))
+                setTypingSpeed(150)
+            }
+
+            if (!isDeleting && displayText === currentPhrase) {
+                setTimeout(() => setIsDeleting(true), 2000)
+            } else if (isDeleting && displayText === "") {
+                setIsDeleting(false)
+                setCurrentPhraseIndex((prev) => (prev + 1) % phrases.length)
+            }
+        }
+
+        const timer = setTimeout(handleTyping, typingSpeed)
+        return () => clearTimeout(timer)
+    }, [displayText, isDeleting, currentPhraseIndex, typingSpeed, phrases])
+
     return (
         <div className="min-h-screen bg-white dark:bg-black selection:bg-blue-500/30 relative overflow-hidden">
             {/* Particles Background */}
@@ -101,9 +132,12 @@ export default function HomeView() {
                         <span>The most powerful URL shortener</span>
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight">
+                    <h1 className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight min-h-[160px] md:min-h-[auto]">
                         Make your links <br className="hidden md:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">shorter & smarter.</span>
+                        <span className="text-orange-500">
+                            {displayText}
+                            <span className="animate-pulse text-orange-500">|</span>
+                        </span>
                     </h1>
 
                     <p className="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
@@ -137,7 +171,7 @@ export default function HomeView() {
                         <div className="text-sm text-gray-500 dark:text-gray-400 mt-3 animate-fade-in">
                             <span className="inline-flex items-center gap-1">
                                 <Sparkles size={12} className="text-yellow-500" />
-                                <span>Want a custom alias (e.g. <strong>{window.location.host}/your-brand</strong>)?</span>
+                                <span>Want a custom alias (e.g. <strong>{window.location.host}/your-alias</strong>)?</span>
                                 <Link to="/register" className="text-blue-600 dark:text-blue-400 hover:underline font-medium ml-1">
                                     Create free account
                                 </Link>
@@ -207,13 +241,84 @@ export default function HomeView() {
             </main>
 
             {/* Footer */}
-            <footer className="py-12 border-t border-gray-100 dark:border-zinc-900 text-center">
-                <div className="space-y-2">
+            <footer className="py-12 border-t border-gray-100 dark:border-zinc-900 bg-gray-50/50 dark:bg-black">
+                <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+                    {/* Brand Column */}
+                    <div className="md:col-span-2 space-y-4">
+                        <div className="flex items-center gap-2">
+                            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                                <Link2 size={20} className="rotate-45" />
+                            </div>
+                            <span className="font-bold text-xl tracking-tight text-gray-900 dark:text-white">ShawtyLink</span>
+                        </div>
+                        <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed max-w-xs">
+                            The modern, open-source URL shortener built for speed, privacy, and simplicity. Crafted with ❤️ by Rivaldi.
+                        </p>
+                        <div className="flex gap-4">
+                            <a
+                                href="https://github.com/awpetrik"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="p-2 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+                            >
+                                <Github size={20} />
+                            </a>
+                            <a
+                                href="https://instagram.com/certified.lunatics"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="p-2 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 hover:bg-pink-600 hover:text-white transition-all"
+                            >
+                                <Instagram size={20} />
+                            </a>
+                            <a
+                                href="https://www.threads.net/@awpetrik"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="p-2 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all"
+                            >
+                                <AtSign size={20} />
+                            </a>
+                            <a
+                                href="https://tiktok.com/@certified.lunatics"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="p-2 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-600 dark:text-gray-400 hover:bg-black hover:text-white dark:hover:bg-teal-400 dark:hover:text-black transition-all"
+                            >
+                                <Music2 size={20} />
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Resources */}
+                    <div>
+                        <h4 className="font-bold text-gray-900 dark:text-white mb-6">Resources</h4>
+                        <ul className="space-y-4 text-sm text-gray-500 dark:text-gray-400">
+                            <li><a href="https://github.com/awpetrik/ShawtyLink" target="_blank" rel="noreferrer" className="hover:text-blue-500 transition-colors">Documentation</a></li>
+                            <li><a href="http://localhost:8000/docs" target="_blank" rel="noreferrer" className="hover:text-blue-500 transition-colors">API Reference</a></li>
+                            <li><Link to="/faq" className="hover:text-blue-500 transition-colors">FAQ</Link></li>
+                            <li><a href="mailto:abuse@shawty.rivaldi.fun" className="hover:text-red-500 transition-colors">Report Abuse</a></li>
+                        </ul>
+                    </div>
+
+                    {/* Legal */}
+                    <div>
+                        <h4 className="font-bold text-gray-900 dark:text-white mb-6">Legal & Company</h4>
+                        <ul className="space-y-4 text-sm text-gray-500 dark:text-gray-400">
+                            <li><Link to="/terms" className="hover:text-blue-500 transition-colors">Terms of Service</Link></li>
+                            <li><Link to="/privacy" className="hover:text-blue-500 transition-colors">Privacy Policy</Link></li>
+                            <li><Link to="/about" className="hover:text-blue-500 transition-colors">About Me</Link></li>
+                            <li><a href="mailto:hello@shawty.rivaldi.fun" className="hover:text-blue-500 transition-colors">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-gray-200 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-gray-500 dark:text-gray-500 text-sm">
-                        © {new Date().getFullYear()} Certified Lunatics.
+                        © {new Date().getFullYear()} Certified Lunatics. All rights reserved.
                     </p>
                     <p className="text-xs text-gray-400 dark:text-gray-600 font-medium tracking-wide uppercase">
-                        A Part of Rivaldi's Network
+                        Part of Rivaldi's Network
                     </p>
                 </div>
             </footer>

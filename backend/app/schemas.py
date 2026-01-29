@@ -48,6 +48,13 @@ class UserUpdateAdmin(BaseModel):
     is_active: Optional[bool] = None
     is_superuser: Optional[bool] = None
 
+class PasswordResetRequest(BaseModel):
+    email: EmailStr
+
+class PasswordResetConfirm(BaseModel):
+    token: str
+    new_password: str
+
 class UserDeleteConfirm(BaseModel):
     password: str
 

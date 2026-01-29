@@ -88,7 +88,7 @@ export default function Navbar() {
                             </>
                         ) : (
                             <div className="flex items-center gap-3">
-                                <Link to="/login" className="text-sm font-medium text-gray-600 hover:text-gray-900">Sign In</Link>
+                                <Link to="/login" className="text-sm font-medium text-gray-600 dark:text-gray-300 dark:hover:text-white hover:text-gray-900 transition-colors">Sign In</Link>
                                 <Link to="/register" className="btn-primary text-sm">Get Started</Link>
                             </div>
                         )}

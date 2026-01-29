@@ -8,6 +8,7 @@ backend/*.pyc
 backend/sql_app.db
 backend/data/*.db
 backend/.env
+.env
 backend/venv/
 backend/.pytest_cache/
 

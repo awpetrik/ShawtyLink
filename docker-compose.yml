@@ -32,13 +32,22 @@ services:
       - INITIAL_ADMIN_EMAIL=${INITIAL_ADMIN_EMAIL}
       - INITIAL_ADMIN_PASSWORD=${INITIAL_ADMIN_PASSWORD}
       - FRONTEND_URL=${FRONTEND_URL}
+      - EMAIL_HOST=${EMAIL_HOST:-smtp.gmail.com}
+      - EMAIL_PORT=${EMAIL_PORT:-587}
+      - EMAIL_USER=${EMAIL_USER}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_FROM=${EMAIL_FROM:-noreply@shawty.link}
+      - LOGO_URL=${LOGO_URL}
     depends_on:
       - db
       - redis
     restart: always
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL=${VITE_API_URL}
     ports:
       - "1603:80"
     restart: always

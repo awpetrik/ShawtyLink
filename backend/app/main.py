@@ -116,6 +116,99 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
         "token_type": "bearer"
     }
 
+@app.post("/auth/forgot-password")
+async def forgot_password(
+    request: schemas.PasswordResetRequest,
+    db: AsyncSession = Depends(database.get_db)
+):
+    # 1. Check if user exists
+    result = await db.execute(select(models.User).where(models.User.email == request.email))
+    user = result.scalars().first()
+    
+    if user:
+        # 2. Generate Token
+        reset_token = auth.create_random_token()
+        
+        # 3. Store in Redis (15 mins)
+        if redis_client:
+            await redis_client.set(f"pwd_reset:{reset_token}", user.email, ex=900)
+            
+            # 4. Send Email via SMTP
+            from fastapi_mail import FastMail, MessageSchema, ConnectionConfig, MessageType
+            from .email_utils import get_reset_password_template
+            
+            conf = ConnectionConfig(
+                MAIL_USERNAME=os.getenv("EMAIL_USER"),
+                MAIL_PASSWORD=os.getenv("EMAIL_PASSWORD"),
+                MAIL_FROM=os.getenv("EMAIL_FROM", "noreply@shawty.link"),
+                MAIL_PORT=int(os.getenv("EMAIL_PORT", 587)),
+                MAIL_SERVER=os.getenv("EMAIL_HOST", "smtp.gmail.com"),
+                MAIL_STARTTLS=True,
+                MAIL_SSL_TLS=False,
+                USE_CREDENTIALS=True,
+                VALIDATE_CERTS=True
+            )
+            
+            frontend_url = os.getenv("FRONTEND_URL", "http://localhost:1603")
+            reset_link = f"{frontend_url}/reset-password?token={reset_token}"
+            
+            html = get_reset_password_template(reset_link, user.email, frontend_url)
+            
+            message = MessageSchema(
+                subject="Reset Your Password - ShawtyLink",
+                recipients=[user.email],
+                body=html,
+                subtype=MessageType.html
+            )
+            
+            fm = FastMail(conf)
+            try:
+                await fm.send_message(message)
+            except Exception as e:
+                print(f"Failed to send email: {e}")
+                # Fallback to log for debugging if SMTP fails
+                print(f" [Link] {reset_link}")
+                
+        else:
+            raise HTTPException(500, "Redis unavailable for password reset")
+            
+    # Check if SMTP is configured (for frontend Dev Note)
+    smtp_configured = bool(os.getenv("EMAIL_USER") and os.getenv("EMAIL_PASSWORD"))
+    
+    return {
+        "message": "If the email exists, a reset link has been sent.",
+        "smtp_configured": smtp_configured
+    }
+
+@app.post("/auth/reset-password")
+async def reset_password(
+    data: schemas.PasswordResetConfirm,
+    db: AsyncSession = Depends(database.get_db)
+):
+    if not redis_client:
+        raise HTTPException(500, "Service unavailable")
+        
+    # 1. Verify Token
+    email = await redis_client.get(f"pwd_reset:{data.token}")
+    if not email:
+        raise HTTPException(400, "Invalid or expired token")
+        
+    # 2. Get User
+    result = await db.execute(select(models.User).where(models.User.email == email))
+    user = result.scalars().first()
+    if not user:
+        raise HTTPException(404, "User not found")
+        
+    # 3. Update Password
+    user.hashed_password = auth.get_password_hash(data.new_password)
+    db.add(user)
+    await db.commit()
+    
+    # 4. Delete Token
+    await redis_client.delete(f"pwd_reset:{data.token}")
+    
+    return {"message": "Password updated successfully"}
+
 # --- Admin Routes ---
 
 @app.get("/admin/users", response_model=List[schemas.User], dependencies=[Depends(auth.get_current_active_superuser)])
@@ -590,7 +683,7 @@ async def process_click_stats(click_id: int, user_agent_str: str, client_ip: str
         is_private = client_ip.startswith(("127.", "::1", "10.", "172.", "192.168."))
         
         if is_private or client_ip == "localhost":
-            country = "Indonesia (Dev)" if client_ip in ["127.0.0.1", "::1", "localhost"] else "Unknown (Private IP)"
+            country = "Indonesia (Dev)" # Treat all private/local IPs as Dev Country
         else:
             try:
                 # Use public IP-API (free, limit 45 req/min)
