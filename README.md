@@ -16,7 +16,7 @@
 
 A powerful, self-hostable SaaS URL shortener with a premium Apple-inspired design. Built for speed, privacy, and scalability.
 
-## ✨ Features (v2.2.0)
+## ✨ Features (v2.2.1)
 
 ### Core Features
 - **User System**: Full SaaS architecture with Login, Register, and JWT Authentication.
