@@ -1,6 +1,21 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## [v2.2.1] - 2026-01-30
+
+### 🎉 New Features
+- **Pro Tip Slider**: Added an animated, rotating "Pro Tip" slider on the Dashboard, cycling through useful tips and community links.
+- **Saweria Integration**: Added a "Buy me a coffee" card in the slider linking directly to Saweria for donations.
+- **Link Previews (Open Graph)**: Added Open Graph and Twitter Card meta tags so shared links now display a proper preview image (`/logo.png`) on social media.
+
+### 🐛 Bug Fixes
+- **Domain Redirect**: Fixed an issue where password-protected links on VPS redirected to the old domain. Updated backend logic and `.env` configuration.
+- **API Reference Link**: Fixed the footer API Reference link on VPS pointing to `localhost` by using the dynamic `VITE_API_URL` environment variable.
+- **Icon Rendering**: Fixed a JSX syntax error in the slider component related to dynamic icon rendering.
+
+### 🔧 Configuration
+- **VPS Deployment**: Updated `docker-compose.yml` and `.env` handling for smoother deployment and environment variable persistence.
+
 ## [v2.2.0] - 2026-01-27
 
 ### 🎉 New Features

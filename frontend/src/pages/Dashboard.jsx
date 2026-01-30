@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '../context/AuthContext'
-import { BarChart3, Link as LinkIcon, Users, Calendar, TrendingUp } from 'lucide-react'
+import { BarChart3, Link as LinkIcon, Users, Calendar, TrendingUp, Github, Instagram, ExternalLink, Star, Coffee } from 'lucide-react'
 import StatsCard from '../components/dashboard/StatsCard'
 import RecentActivity from '../components/dashboard/RecentActivity'
 import EmptyState from '../components/dashboard/EmptyState'
 import CreateLinkModal from '../components/links/CreateLinkModal'
 import EditLinkModal from '../components/links/EditLinkModal'
 import { Link, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Dashboard() {
     const { user, api } = useAuth()
@@ -16,6 +16,49 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true)
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [editLink, setEditLink] = useState(null)
+    const [currentTipIndex, setCurrentTipIndex] = useState(0)
+
+    // Define Tip Cards
+    const tipCards = [
+        {
+            badge: '☕',
+            title: 'Donate',
+            heading: 'Buy me a coffee ☕️',
+            description: 'Enjoying ShawtyLink? Support the developer by buying a coffee via Saweria!',
+            buttonText: 'Support on Saweria',
+            buttonIcon: Coffee,
+            buttonLink: 'https://saweria.co/CertifiedLunatics',
+            isExternal: true
+        },
+        {
+            badge: '💡',
+            title: 'Pro Tip',
+            heading: 'Boost your reach',
+            description: 'Share your links on social media platforms for maximum engagement.',
+            buttonText: 'View Analytics',
+            buttonIcon: BarChart3,
+            buttonLink: '/analytics',
+            isExternal: false
+        },
+        {
+            badge: '⭐',
+            title: 'Support',
+            heading: 'Star us on GitHub',
+            description: 'Love ShawtyLink? Give us a star on GitHub to support the project and help us grow!',
+            buttonText: 'Star Repository',
+            buttonIcon: Star,
+            buttonLink: 'https://github.com/awpetrik/ShawtyLink',
+            isExternal: true
+        }
+    ]
+
+    // Auto-rotate tips every 5 seconds
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTipIndex((prev) => (prev + 1) % tipCards.length)
+        }, 8000)
+        return () => clearInterval(interval)
+    }, [])
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -152,7 +195,7 @@ export default function Dashboard() {
                             />
                         </motion.div>
 
-                        {/* Sidebar (Pro Tip) */}
+                        {/* Sidebar (Pro Tip Slider) */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -163,19 +206,62 @@ export default function Dashboard() {
                             <div className="absolute bottom-0 left-0 w-24 h-24 bg-black/10 rounded-full blur-2xl -ml-8 -mb-8 pointer-events-none" />
 
                             <div className="relative z-10">
-                                <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold mb-4 border border-white/20">
-                                    <span>💡</span> Pro Tip
+                                <AnimatePresence mode="wait">
+                                    <motion.div
+                                        key={currentTipIndex}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.3 }}
+                                    >
+                                        <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold mb-4 border border-white/20">
+                                            <span>{tipCards[currentTipIndex].badge}</span> {tipCards[currentTipIndex].title}
+                                        </div>
+
+                                        <h3 className="font-bold text-xl mb-3 leading-snug">{tipCards[currentTipIndex].heading}</h3>
+                                        <p className="text-blue-100 text-sm mb-6 leading-relaxed">
+                                            {tipCards[currentTipIndex].description}
+                                        </p>
+
+                                        {(() => {
+                                            const ButtonIcon = tipCards[currentTipIndex].buttonIcon
+                                            return tipCards[currentTipIndex].isExternal ? (
+                                                <a
+                                                    href={tipCards[currentTipIndex].buttonLink}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="w-full bg-white text-blue-600 px-4 py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+                                                >
+                                                    {tipCards[currentTipIndex].buttonText}
+                                                    <ButtonIcon size={16} />
+                                                </a>
+                                            ) : (
+                                                <Link
+                                                    to={tipCards[currentTipIndex].buttonLink}
+                                                    className="w-full bg-white text-blue-600 px-4 py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2"
+                                                >
+                                                    {tipCards[currentTipIndex].buttonText}
+                                                    <ButtonIcon size={16} />
+                                                </Link>
+                                            )
+                                        })()}
+                                    </motion.div>
+                                </AnimatePresence>
+
+                                {/* Navigation Dots */}
+                                <div className="flex gap-2 justify-center mt-6">
+                                    {tipCards.map((_, index) => (
+                                        <button
+                                            key={index}
+                                            onClick={() => setCurrentTipIndex(index)}
+                                            className={`h-2 rounded-full transition-all ${index === currentTipIndex
+                                                ? 'w-8 bg-white'
+                                                : 'w-2 bg-white/40 hover:bg-white/60'
+                                                }`}
+                                            aria-label={`Go to tip ${index + 1}`}
+                                        />
+                                    ))}
                                 </div>
-
-                                <h3 className="font-bold text-xl mb-3 leading-snug">Boost your reach</h3>
-                                <p className="text-blue-100 text-sm mb-6 leading-relaxed">
-                                    Share your links on social media platforms between 9AM - 11AM on Tuesdays for maximum engagement.
-                                </p>
-
-                                <Link to="/analytics" className="w-full bg-white text-blue-600 px-4 py-3 rounded-xl text-sm font-bold shadow-sm hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2">
-                                    View Analytics
-                                    <BarChart3 size={16} />
-                                </Link>
                             </div>
                         </motion.div>
                     </div>

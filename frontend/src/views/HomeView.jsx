@@ -295,7 +295,7 @@ export default function HomeView() {
                         <h4 className="font-bold text-gray-900 dark:text-white mb-6">Resources</h4>
                         <ul className="space-y-4 text-sm text-gray-500 dark:text-gray-400">
                             <li><a href="https://github.com/awpetrik/ShawtyLink" target="_blank" rel="noreferrer" className="hover:text-blue-500 transition-colors">Documentation</a></li>
-                            <li><a href="http://localhost:8000/docs" target="_blank" rel="noreferrer" className="hover:text-blue-500 transition-colors">API Reference</a></li>
+                            <li><a href={`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/docs`} target="_blank" rel="noreferrer" className="hover:text-blue-500 transition-colors">API Reference</a></li>
                             <li><Link to="/faq" className="hover:text-blue-500 transition-colors">FAQ</Link></li>
                             <li><a href="mailto:abuse@shawty.rivaldi.fun" className="hover:text-red-500 transition-colors">Report Abuse</a></li>
                         </ul>
