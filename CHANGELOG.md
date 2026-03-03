@@ -9,7 +9,6 @@ All notable changes to this project will be documented in this file.
 - **Link Previews (Open Graph)**: Added Open Graph and Twitter Card meta tags so shared links now display a proper preview image (`/logo.png`) on social media.
 
 ### 🐛 Bug Fixes
-- **Domain Redirect**: Fixed an issue where password-protected links on VPS redirected to the old domain. Updated backend logic and `.env` configuration.
 - **API Reference Link**: Fixed the footer API Reference link on VPS pointing to `localhost` by using the dynamic `VITE_API_URL` environment variable.
 - **Icon Rendering**: Fixed a JSX syntax error in the slider component related to dynamic icon rendering.
 
